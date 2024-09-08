@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/EmpezarTomaBtn"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#29282B"
+    tools:context=".TomaPastillaView">
+
+    <TextView
+        android:id="@+id/texto"
+        android:layout_width="362dp"
+        android:layout_height="94dp"
+        android:layout_marginTop="240dp"
+        android:text="Para registrar la toma de tu pastilla necesitamos que active su cámara y siga los siguientes pasos cuando se lo indiquemos:"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/momento"
+        android:layout_width="364dp"
+        android:layout_height="62dp"
+        android:layout_marginTop="128dp"
+        android:text="Es momento de tomar tu pastilla!"
+        android:textAlignment="center"
+        android:textColor="#1FB5C0"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/paso1text"
+        android:layout_width="331dp"
+        android:layout_height="26dp"
+        android:layout_marginTop="372dp"
+        android:text="1. Muestre la pastilla al interior de su boca "
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/paso2text"
+        android:layout_width="321dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="412dp"
+        android:text="2. Tome su pastilla"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/paso3text"
+        android:layout_width="322dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="456dp"
+        android:text="3. Muestre nuevamente su boca abierta"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/empezarbtn"
+        android:layout_width="346dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="608dp"
+        android:backgroundTint="#1FB5C0"
+        android:text="Empecemos"
+        android:textColor="#040404"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

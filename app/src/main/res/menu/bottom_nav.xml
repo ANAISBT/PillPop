@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Inicio"
+        android:id="@+id/inicio"
+        android:icon="@drawable/baseline_home_24"
+        android:iconTint="#24D2DF"/>
+    <item android:title="Tratamiento"
+        android:id="@+id/tratamiento"
+        android:icon="@drawable/tratamiento"/>
+    <item android:title="Progreso"
+        android:id="@+id/progreso"
+        android:icon="@drawable/progreso"/>
+</menu>
