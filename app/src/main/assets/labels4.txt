@@ -1,0 +1,3 @@
+  bocaAbierta
+  bocaCerrada
+  pastilla
