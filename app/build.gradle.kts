@@ -36,9 +36,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures {
+    /*buildFeatures {
         compose = true
-    }
+    }*/
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
@@ -46,6 +46,9 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -66,4 +69,38 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation("androidx.core:core-ktx:1.13.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.11.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.activity:activity:1.8.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.3")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
+    implementation("com.android.volley:volley:1.2.1")
+    testImplementation("junit:junit:4.13.2")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    val cameraxVersion = "1.4.0-alpha04"
+    implementation("androidx.camera:camera-camera2:${cameraxVersion}")
+    implementation("androidx.camera:camera-lifecycle:${cameraxVersion}")
+    implementation("androidx.camera:camera-view:${cameraxVersion}")
+
+    implementation("org.tensorflow:tensorflow-lite:2.16.1")
+    implementation("org.tensorflow:tensorflow-lite-support:0.4.4")
+
+    implementation("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.4")
+    implementation("org.tensorflow:tensorflow-lite-gpu-api:2.16.1")
+    implementation("org.tensorflow:tensorflow-lite-api:2.16.1")
+    implementation("org.tensorflow:tensorflow-lite-gpu:2.16.1")
+    implementation("androidx.recyclerview:recyclerview:1.3.2")
+
+    // OkHttp and Gson
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.google.code.gson:gson:2.10.1")
+
+
 }
