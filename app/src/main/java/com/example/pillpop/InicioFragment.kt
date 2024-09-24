@@ -21,31 +21,13 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [InicioFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class InicioFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private lateinit var listMedicamentosHoy: RecyclerView
     private lateinit var adapter: MedicamentoAdapter
-    private var param1: String? = null
-    private var param2: String? = null
-    private var perfilId: Int = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-            perfilId = it.getInt("perfil_id")
-        }
 
     }
 
@@ -60,6 +42,22 @@ class InicioFragment : Fragment() {
         listMedicamentosHoy = view.findViewById(R.id.ListMedicamentosHoy)
         listMedicamentosHoy.layoutManager = LinearLayoutManager(context)
 
+        val pastillasList: List<Medicamento> = listOf(
+            Medicamento(1, "Paracetamol - 200mg", "08:00", "1", 1, "20/09/2024", "08:00", 1),
+            Medicamento(2, "Ibuprofeno - 200mg", "12:00", "2", 2, "20/09/2024", "12:00", 0),
+            Medicamento(3, "Amoxicilina - 200mg", "18:00", "2", 1, "20/09/2024", "18:00", 1),
+            Medicamento(4, "Metformina - 200mg", "20:00", "8", 2, "20/09/2024", "20:00", 0),
+            Medicamento(5, "Loratadina - 200mg", "22:00", "1", 1, "20/09/2024", "22:00", 1),
+            Medicamento(1, "Paracetamol - 200mg", "08:00", "1", 1, "20/09/2024", "08:00", 1),
+            Medicamento(2, "Ibuprofeno - 200mg", "12:00", "2", 2, "20/09/2024", "12:00", 0),
+            Medicamento(3, "Amoxicilina - 200mg", "18:00", "2", 1, "20/09/2024", "18:00", 1),
+            Medicamento(4, "Metformina - 200mg", "20:00", "8", 2, "20/09/2024", "20:00", 0),
+            Medicamento(5, "Loratadina - 200mg", "22:00", "1", 1, "20/09/2024", "22:00", 1)
+        )
+
+        adapter = MedicamentoAdapter(pastillasList)
+        listMedicamentosHoy.adapter = adapter
+
         // Obtener el TextView
         val textView4 = view.findViewById<TextView>(R.id.textView4)
 
@@ -71,44 +69,7 @@ class InicioFragment : Fragment() {
         // Establecer el texto del TextView
         textView4.text = formattedDate
 
-        fetchMedicamentos()
-
         return view
-    }
-
-    private fun fetchMedicamentos() {
-        // Create a new thread or use a coroutine for network operations
-        Thread {
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                .url("https://pillpop.000webhostapp.com/pillpop/prescripcionesPorFecha.php?paciente_id=$perfilId")
-                .build()
-            val response: Response = client.newCall(request).execute()
-            val jsonData = response.body?.string()
-
-            jsonData?.let {
-                val gson = Gson()
-                val listType: Type = object : TypeToken<List<Medicamento>>() {}.type
-                val medicamentos: List<Medicamento> = gson.fromJson(it, listType)
-
-                activity?.runOnUiThread {
-                    adapter = MedicamentoAdapter(medicamentos)
-                    listMedicamentosHoy.adapter = adapter
-
-                    // Set the click listener for items in the adapter
-                    adapter.setOnItemClickListener { position ->
-                        val selectedMedicamento = medicamentos[position]
-                        val registroId = selectedMedicamento.registro_id
-
-                        // Inicia la nueva actividad
-                        val intent = Intent(requireContext(), TomaIndicacionView::class.java)
-                        intent.putExtra("registro_id", registroId)
-                        intent.putExtra("perfil_id", perfilId)
-                        startActivity(intent)
-                    }
-                }
-            }
-        }.start()
     }
 
     companion object {
@@ -116,8 +77,7 @@ class InicioFragment : Fragment() {
         fun newInstance(param1: String, param2: String) =
             InicioFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
                 }
             }
     }

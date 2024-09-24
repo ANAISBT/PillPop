@@ -14,29 +14,27 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Pillpop"
+        android:theme="@style/Theme.PillPop"
         tools:targetApi="31">
         <activity
             android:name=".Login"
             android:exported="false" />
         <activity
-            android:name=".TomaIndicacionView"
-            android:exported="false" />
-        <activity
             android:name=".TomaPastillaView"
             android:exported="false" />
         <activity
-            android:name=".DatosView"
+            android:name=".RegisterView"
             android:exported="false" />
         <activity
             android:name=".BienvenidoView"
             android:exported="false" />
         <activity
-            android:name=".InicioView"
+            android:name=".TomaIndicacionView"
             android:exported="false" />
         <activity
-            android:name=".Perfil_View"
+            android:name=".PrincipalView"
             android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -48,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PrincipalView"
+            android:name=".InicioView"
             android:exported="false" />
 
         <uses-native-library

@@ -247,45 +247,6 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
         }
     }
 
-    private fun actualizarRegistroToma(registroId: Int) {
-        val url = "https://pillpop.000webhostapp.com/pillpop/actualizarRegistroToma.php"
-        val client = OkHttpClient()
-        val formBody = FormBody.Builder()
-            .add("registro_id", registroId.toString())
-            .build()
-        val request = Request.Builder()
-            .url(url)
-            .post(formBody)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread {
-                    Toast.makeText(this@MainActivity, "Error al actualizar el registro: ${e.message}", Toast.LENGTH_LONG).show()
-                }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    runOnUiThread {
-                        Toast.makeText(this@MainActivity, "Registro actualizado correctamente.", Toast.LENGTH_LONG).show()
-                        // Redirigir a Principal_View después de actualizar el registro
-                        Log.d(TAG, "Navegando a Principal_View")
-                        val intent = Intent(this@MainActivity, PrincipalView::class.java)
-                        intent.putExtra("perfil_id", perfilId)
-                        startActivity(intent)
-                        Log.d(TAG, "Finalizando MainActivity")
-                        finish()
-                    }
-                } else {
-                    runOnUiThread {
-                        Toast.makeText(this@MainActivity, "Error al actualizar el registro: ${response.message}", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        })
-    }
-
 
     override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
         runOnUiThread {
@@ -328,7 +289,8 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
             if (bocaAbiertaDetected && !pastillaDetected && !bocaCerradaDetected && Alert3 && !Alert4) {
                 showAlert3("Se verificó la correcta toma total de la pastilla.")
                 Alert4 = true
-                actualizarRegistroToma(registro_id)
+                val intent = Intent(this@MainActivity, PrincipalView::class.java)
+                startActivity(intent)
             }
 
             if (bocaCerradaDetected && !bocaAbiertaDetected && !pastillaDetected && Alert3 && !Alert5) {

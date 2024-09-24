@@ -5,14 +5,14 @@
     android:id="@+id/EmpezarTomaBtn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DatosView"
+    tools:context=".RegisterView"
     android:background="#29282B">
 
     <TextView
         android:id="@+id/DatosText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="68dp"
         android:fontFamily="sans-serif-medium"
         android:text="Ingrese tus datos"
         android:textColor="#FFFFFF"
@@ -27,11 +27,11 @@
         style="@style/Labels"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="sans-serif-medium"
-        android:text="¿Cuál es tu nombre?"
+        android:text="Nombre Completo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.149"
+        app:layout_constraintHorizontal_bias="0.141"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/DatosText" />
 
@@ -39,17 +39,17 @@
         android:id="@+id/NombreInput"
         style="@style/Inputs"
         android:layout_width="330dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#1FB5C0"
         android:ems="10"
         android:inputType="text"
         android:text=""
         android:textColor="#721FB5C0"
-        app:layout_constraintTop_toBottomOf="@id/NombreText"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/NombreText" />
 
     <TextView
         android:id="@+id/GeneroText"
@@ -58,60 +58,117 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-medium"
-        android:text="¿Con qué género te identificas?"
+        android:text="Género"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.203"
+        app:layout_constraintHorizontal_bias="0.112"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/NombreInput" />
 
     <Spinner
         android:id="@+id/generosDrop"
         android:layout_width="330dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#1FB5C0"
         android:textColor="#1FB5C0"
-        app:layout_constraintTop_toBottomOf="@id/GeneroText"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/GeneroText" />
+
+    <TextView
+        android:id="@+id/EdadText"
+        style="@style/Labels"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Edad"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.108"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/generosDrop" />
+
+    <EditText
+        android:id="@+id/EdadInput"
+        style="@style/Inputs"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#1FB5C0"
+        android:ems="10"
+        android:inputType="text"
+        android:text=""
+        android:textColor="#721FB5C0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.131"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/EdadText" />
+
+    <TextView
+        android:id="@+id/DNIText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="DNI"
+        android:textAppearance="@style/Labels"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.103"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/EdadInput" />
+
+    <EditText
+        android:id="@+id/DNIInput"
+        style="@style/Inputs"
+        android:layout_width="330dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
+        android:backgroundTint="#1FB5C0"
+        android:inputType="textEmailAddress"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/DNIText" />
 
     <TextView
         android:id="@+id/CorreoText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Ingresa tu correo"
+        android:text="Correo Electrónico"
         android:textAppearance="@style/Labels"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.138"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/generosDrop" />
+        app:layout_constraintTop_toBottomOf="@+id/DNIInput" />
 
     <EditText
         android:id="@+id/EmailAddressInput"
         style="@style/Inputs"
         android:layout_width="330dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#1FB5C0"
+        android:inputType="textEmailAddress"
         android:text=""
-        app:layout_constraintTop_toBottomOf="@id/CorreoText"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/CorreoText" />
 
     <TextView
         android:id="@+id/ContraseñaText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Ingresa tu contraseña"
+        android:text="Contraseña"
         android:textAppearance="@style/Labels"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.154"
+        app:layout_constraintHorizontal_bias="0.122"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/EmailAddressInput" />
 
@@ -119,16 +176,16 @@
         android:id="@+id/editTextTextPassword"
         style="@style/Inputs"
         android:layout_width="330dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="#1FB5C0"
         android:ems="10"
         android:inputType="textPassword"
         android:text=""
-        app:layout_constraintTop_toBottomOf="@id/ContraseñaText"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ContraseñaText" />
 
     <ImageView
         android:id="@+id/imageView2"
