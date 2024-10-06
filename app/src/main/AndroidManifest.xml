@@ -32,11 +32,11 @@
             android:name=".TomaIndicacionView"
             android:exported="false" />
         <activity
-            android:name=".PrincipalView"
+            android:name=".MainActivity"
             android:exported="false" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".PrincipalView"
             android:exported="true"
             >
             <intent-filter>
