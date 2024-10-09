@@ -1,5 +1,6 @@
 package com.example.pillpop
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -94,6 +95,14 @@ class InicioFragment : Fragment() {
 
                 // Actualizar el adaptador con los datos obtenidos
                 adapter = MedicamentoAdapter(medicamentosList)
+                adapter.setOnItemClickListener { medicamentoId ->
+                    // Manejar el clic en el medicamento, puedes mostrar un Toast o realizar otra acción
+                    Toast.makeText(context, "ID del medicamento seleccionado: $medicamentoId", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(requireContext(), MainActivity::class.java).apply {
+                        putExtra("ID_MEDICAMENTO", medicamentoId) // Pasa el ID del medicamento
+                    }
+                    startActivity(intent) // Inicia MainActivity
+                }
                 listMedicamentosHoy.adapter = adapter
             },
             { error ->

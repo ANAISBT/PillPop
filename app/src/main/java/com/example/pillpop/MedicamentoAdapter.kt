@@ -27,7 +27,7 @@ class MedicamentoAdapter(private val medicamentos: List<Medicamento>) : Recycler
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val medicamento = medicamentos[position]
         viewHolder.nombrePill.text = medicamento.medicamento_nombre
-        viewHolder.dosisPill.text = "${medicamento.dosis} unidad" // Ajusta según sea necesario
+        viewHolder.dosisPill.text = "${medicamento.dosis} unidades" // Ajusta según sea necesario
         viewHolder.horaPill.text = medicamento.hora_toma.split(":").take(2).joinToString(":")
         viewHolder.pillImage.setImageResource(R.drawable.pill) // Ajusta si tienes imágenes específicas
 
@@ -39,7 +39,7 @@ class MedicamentoAdapter(private val medicamentos: List<Medicamento>) : Recycler
 
         // Configura el click listener en el CardView
         viewHolder.cardView.setOnClickListener {
-            onItemClickListener?.invoke(position) // Llama al listener con la posición
+            onItemClickListener?.invoke(medicamento.registro_id) // Envía el ID del medicamento
         }
     }
 

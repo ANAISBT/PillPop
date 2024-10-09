@@ -19,15 +19,14 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.example.pillpop.Constants.LABELS_PATH
 import com.example.pillpop.Constants.MODEL_PATH
 import com.example.pillpop.databinding.ActivityMainBinding
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.FormBody
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.IOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -55,11 +54,20 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
     private var registro_id: Int = 0
 
     private var perfilId: Int = 0
+    private var idMedicamento: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Obtener el ID del medicamento de los extras
+        idMedicamento = intent.getIntExtra("ID_MEDICAMENTO", -1) // -1 es un valor por defecto
+
+        if (idMedicamento != -1) {
+            // Aquí puedes usar el idMedicamento según sea necesario
+            Toast.makeText(this, "ID del medicamento: $idMedicamento", Toast.LENGTH_SHORT).show()
+        }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -289,6 +297,8 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
             if (bocaAbiertaDetected && !pastillaDetected && !bocaCerradaDetected && Alert3 && !Alert4) {
                 showAlert3("Se verificó la correcta toma total de la pastilla.")
                 Alert4 = true
+                // Aquí se realiza la solicitud para cambiar la toma a 1
+                cambiarToma(idMedicamento) // o el ID que corresponda
                 val intent = Intent(this@MainActivity, PrincipalView::class.java)
                 startActivity(intent)
             }
@@ -300,5 +310,41 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
             }
         }
     }
+
+    private fun cambiarToma(tomaID: Int) {
+        val url = "https://pillpop-backend.onrender.com/cambiarTomaA1" // Cambia esto por la URL de tu servidor
+        val queue = Volley.newRequestQueue(this)
+
+        val requestBody = JSONObject()
+        try {
+            requestBody.put("tomaID", tomaID)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+
+        val jsonRequest = object : JsonObjectRequest(
+            Method.POST, url, requestBody,
+            Response.Listener { response ->
+                try {
+                    val mensaje = response.getString("mensaje")
+                    Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(this, "Error al cambiar la toma: ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Content-Type"] = "application/json"
+                return headers
+            }
+        }
+
+        queue.add(jsonRequest)
+    }
+
 
 }
