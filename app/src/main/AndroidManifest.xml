@@ -17,7 +17,7 @@
         android:theme="@style/Theme.PillPop"
         tools:targetApi="31">
         <activity
-            android:name=".PrincipalView"
+            android:name=".Login"
             android:exported="false" />
         <activity
             android:name=".TomaPastillaView"
@@ -36,7 +36,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".Login"
+            android:name=".PrincipalView"
             android:exported="true"
             >
             <intent-filter>

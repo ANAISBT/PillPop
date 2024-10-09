@@ -62,13 +62,7 @@ class Login : AppCompatActivity() {
                     if (mensaje == "Login exitoso") {
                         val pacienteId = response.getInt("id")
                         Toast.makeText(this, "Login exitoso, ID: $pacienteId", Toast.LENGTH_SHORT).show()
-
-                        // Guardar el pacienteId en SharedPreferences
-                        val sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
-                        val editor = sharedPreferences.edit()
-                        editor.putInt("PACIENTE_ID", pacienteId)
-                        editor.apply() // Aplicar cambios
-
+                        Idpaciente=pacienteId
                         // Navegar a la vista de bienvenida o la siguiente pantalla
                         val intent = Intent(this, BienvenidoView::class.java)
                         startActivity(intent)
