@@ -111,7 +111,7 @@ class InicioFragment : Fragment() {
                     adapter = MedicamentoAdapter(medicamentosList)
                     adapter.setOnItemClickListener { medicamentoId ->
                         // Manejar el clic en el medicamento
-                        val intent = Intent(context, TomaIndicacionView::class.java).apply {
+                        val intent = Intent(requireContext(), TomaIndicacionView::class.java).apply {
                             putExtra("ID_MEDICAMENTO", medicamentoId) // Pasa el ID del medicamento
                         }
                         startActivity(intent) // Inicia la actividad de indicaciones

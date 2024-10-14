@@ -5,12 +5,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 class TomaIndicacionView : AppCompatActivity() {
-    private lateinit var medicamentoId: String
+    private var idMedicamento: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -18,12 +19,17 @@ class TomaIndicacionView : AppCompatActivity() {
 
         val button = findViewById<Button>(R.id.IrVerificacionBtn)
 
-        // Recibir el ID del medicamento
-        medicamentoId = intent.getStringExtra("ID_MEDICAMENTO") ?: "No ID"
+        // Obtener el ID del medicamento de los extras
+        idMedicamento = intent.getIntExtra("ID_MEDICAMENTO", -1) // -1 es un valor por defecto
+
+        if (idMedicamento != -1) {
+            // Aquí puedes usar el idMedicamento según sea necesario
+            Toast.makeText(this, "ID del medicamento: $idMedicamento", Toast.LENGTH_SHORT).show()
+        }
 
         button.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java).apply {
-                putExtra("ID_MEDICAMENTO", medicamentoId) // Pasa el ID del medicamento
+                putExtra("ID_MEDICAMENTO", idMedicamento) // Pasa el ID del medicamento
             }
             startActivity(intent) // Inicia MainActivity
 

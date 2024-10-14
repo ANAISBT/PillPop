@@ -18,10 +18,10 @@
         android:layout_gravity="center"
         android:orientation="horizontal"
         android:paddingVertical="6dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:gravity="center_vertical">
 
         <LinearLayout
@@ -32,12 +32,12 @@
 
             <TextView
                 android:id="@+id/horaPastilla"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:fontFamily="sans-serif-thin"
-                android:layout_weight="1"
-                android:text="8:00 a.m."
                 android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-thin"
+                android:text="8:00 a.m."
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -63,7 +63,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Paracetamol"
-
                 android:textColor="@color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -73,7 +72,7 @@
                 android:id="@+id/dosisPastilla"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="1 unidad"
                 android:textAlignment="viewStart"
