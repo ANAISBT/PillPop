@@ -56,6 +56,20 @@ class PerfilFragment : Fragment() {
             startActivity(intent)
         }
 
+        // Inicializa las vistas para cambiar contraseña
+        val editContrasenaView: ImageView = view.findViewById(R.id.EditContrasenaView)
+        val editContrasenaViewText: TextView = view.findViewById(R.id.EditContrasenaViewText)
+
+        val cambiarContrasenaIntent = Intent(requireContext(), CambiarContraseñaView::class.java)
+
+        editContrasenaView.setOnClickListener {
+            startActivity(cambiarContrasenaIntent)
+        }
+
+        editContrasenaViewText.setOnClickListener {
+            startActivity(cambiarContrasenaIntent)
+        }
+
         // Inicializa las vistas para cerrar sesión
         val cerrarSesionImg: ImageView = view.findViewById(R.id.CerrarSesionImg)
         val cerrarSesionText: TextView = view.findViewById(R.id.CerrarSesionText)

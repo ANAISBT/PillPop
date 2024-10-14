@@ -133,6 +133,7 @@
 >
 
                 <ImageView
+                    android:id="@+id/EditContrasenaView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_corners_icon_turquesa"
@@ -141,6 +142,7 @@
                     app:tint="@color/white" />
 
                 <TextView
+                    android:id="@+id/EditContrasenaViewText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="23dp"
