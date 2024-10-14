@@ -1,5 +1,6 @@
 package com.example.pillpop
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ import java.util.Locale
 class InicioFragment : Fragment() {
     private lateinit var listMedicamentosHoy: RecyclerView
     private lateinit var adapter: MedicamentoAdapter
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +39,11 @@ class InicioFragment : Fragment() {
 
         listMedicamentosHoy = view.findViewById(R.id.ListMedicamentosHoy)
         listMedicamentosHoy.layoutManager = LinearLayoutManager(context)
+
+        // Inicializar el ProgressDialog
+        progressDialog = ProgressDialog(requireContext())
+        progressDialog.setMessage("Cargando datos...")
+        progressDialog.setCancelable(false)
 
         // Obtener el TextView
         val textView4 = view.findViewById<TextView>(R.id.textView4)
@@ -60,6 +67,7 @@ class InicioFragment : Fragment() {
     }
 
     private fun obtenerMedicamentos(pacienteId: Int, fechaHoy: String) {
+        progressDialog.show()
         // Crear la cola de solicitudes de Volley
         val requestQueue = Volley.newRequestQueue(requireContext())
 
@@ -78,41 +86,49 @@ class InicioFragment : Fragment() {
             url,
             jsonBody,
             { response ->
-                // Procesar la respuesta JSON
-                val medicamentosList = mutableListOf<Medicamento>()
-                val jsonArray: JSONArray = response.getJSONArray("medicamentos") // Asegúrate de que la respuesta contenga este campo
+                // Verificar si la respuesta contiene la lista de medicamentos
+                if (response.has("medicamentos")) {
+                    val medicamentosList = mutableListOf<Medicamento>()
+                    val jsonArray: JSONArray = response.getJSONArray("medicamentos")
 
-                for (i in 0 until jsonArray.length()) {
-                    val jsonObject: JSONObject = jsonArray.getJSONObject(i)
-                    var horaToma = jsonObject.getString("hora_minutos")
-                    horaToma = convertirHoraFormato12Horas(horaToma)
-                    val medicamento = Medicamento(
-                        jsonObject.getInt("id"),
-                        jsonObject.getString("nombre"),
-                        jsonObject.getInt("dosis"),
-                        pacienteId,
-                        fechaHoy,
-                        horaToma,
-                        jsonObject.getInt("toma")
-                    )
-                    medicamentosList.add(medicamento)
-                }
-
-                // Actualizar el adaptador con los datos obtenidos
-                adapter = MedicamentoAdapter(medicamentosList)
-                adapter.setOnItemClickListener { medicamentoId ->
-                    // Manejar el clic en el medicamento, puedes mostrar un Toast o realizar otra acción
-                    //Toast.makeText(context, "ID del medicamento seleccionado: $medicamentoId", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(context, TomaIndicacionView::class.java).apply {
-                        putExtra("ID_MEDICAMENTO", medicamentoId) // Pasa el ID del medicamento
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                        var horaToma = jsonObject.getString("hora_minutos")
+                        horaToma = convertirHoraFormato12Horas(horaToma) // Convierte la hora a formato 12 horas
+                        val medicamento = Medicamento(
+                            jsonObject.getInt("id"),
+                            jsonObject.getString("nombre"),
+                            jsonObject.getInt("dosis"),
+                            pacienteId,
+                            fechaHoy,
+                            horaToma,
+                            jsonObject.getInt("toma")
+                        )
+                        medicamentosList.add(medicamento)
                     }
-                    startActivity(intent) // Inicia MainActivity
+
+                    // Actualizar el adaptador con los datos obtenidos
+                    adapter = MedicamentoAdapter(medicamentosList)
+                    adapter.setOnItemClickListener { medicamentoId ->
+                        // Manejar el clic en el medicamento
+                        val intent = Intent(context, TomaIndicacionView::class.java).apply {
+                            putExtra("ID_MEDICAMENTO", medicamentoId) // Pasa el ID del medicamento
+                        }
+                        startActivity(intent) // Inicia la actividad de indicaciones
+                    }
+                    listMedicamentosHoy.adapter = adapter
+                    progressDialog.dismiss()
+                } else if (response.has("mensaje")) {
+                    // Si no se encontraron medicamentos, muestra el mensaje
+                    val mensaje = response.getString("mensaje")
+                    progressDialog.dismiss()
+                    Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
                 }
-                listMedicamentosHoy.adapter = adapter
             },
             { error ->
                 // Manejar errores
                 Toast.makeText(context, "Error al obtener datos: ${error.message}", Toast.LENGTH_SHORT).show()
+                progressDialog.dismiss()
             }
         )
 

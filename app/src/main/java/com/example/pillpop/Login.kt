@@ -1,5 +1,6 @@
 package com.example.pillpop
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -31,6 +32,7 @@ class Login : AppCompatActivity() {
     private lateinit var dniErrorText: TextView
     private lateinit var passwordErrorText: TextView
     private lateinit var requestQueue: RequestQueue
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +48,10 @@ class Login : AppCompatActivity() {
         setupTextWatcher(edtDni, dniErrorText)
         setupTextWatcher(edtContrasena, passwordErrorText)
 
+        progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Cargando datos...")
+        progressDialog.setCancelable(false) // Evitar que el usuario lo pueda cancelar
+
         btnLogin.setOnClickListener {
             val dni = edtDni.text.toString()
             val contrasena = edtContrasena.text.toString()
@@ -59,6 +65,7 @@ class Login : AppCompatActivity() {
 
     }
     private fun iniciarSesion(dni: String, contrasena: String) {
+        progressDialog.show()
         val queue = Volley.newRequestQueue(this)
         val url = "https://pillpop-backend.onrender.com/loginPaciente"
 
@@ -96,6 +103,9 @@ class Login : AppCompatActivity() {
                 } catch (e: Exception) {
                     Toast.makeText(this, "Error en la respuesta: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
+                finally {
+                    progressDialog.dismiss()
+                }
             },
             { error ->
                 if (error.networkResponse != null) {
@@ -103,9 +113,11 @@ class Login : AppCompatActivity() {
                     val errorMsg = String(error.networkResponse.data)
                     Log.e("VolleyError", "Error code: $statusCode, Error message: $errorMsg")
                     Toast.makeText(this, "Error en el servidor: $statusCode", Toast.LENGTH_LONG).show()
+                    progressDialog.dismiss()
                 } else {
                     Log.e("VolleyError", "Error: ${error.message}")
                     Toast.makeText(this, "Error de conexión: ${error.message}", Toast.LENGTH_LONG).show()
+                    progressDialog.dismiss()
                 }
             }
         )

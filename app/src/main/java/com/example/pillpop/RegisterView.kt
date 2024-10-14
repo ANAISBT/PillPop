@@ -1,5 +1,6 @@
 package com.example.pillpop
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -38,6 +39,8 @@ class RegisterView : AppCompatActivity() {
     private lateinit var dniErrorText: TextView
     private lateinit var emailErrorText: TextView
     private lateinit var passwordErrorText: TextView
+    private lateinit var progressDialog: ProgressDialog
+    private lateinit var progressDialog2: ProgressDialog
 
     //private var generoId: Int = 1
     //private var tipoPerfilId: Int = 1
@@ -48,6 +51,14 @@ class RegisterView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_register_view)
+
+        progressDialog = ProgressDialog(this)
+        progressDialog.setMessage("Cargando datos...")
+        progressDialog.setCancelable(false) // Evitar que el usuario lo pueda cancelar
+
+        progressDialog2 = ProgressDialog(this)
+        progressDialog2.setMessage("Guardando datos...")
+        progressDialog2.setCancelable(false) // Evitar que el usuario lo pueda cancelar
 
         spinnerGenero = findViewById(R.id.generosDrop)
         nombreInput = findViewById(R.id.NombreInput)
@@ -112,6 +123,7 @@ class RegisterView : AppCompatActivity() {
 
     // Función para obtener los géneros usando Volley
     private fun loadGeneros() {
+        progressDialog.show() // Mostrar el loader antes de hacer la petición
         val url = "https://pillpop-backend.onrender.com/getDataSexo"  // Reemplaza con la URL correcta
 
         val jsonArrayRequest = JsonArrayRequest(
@@ -127,15 +139,19 @@ class RegisterView : AppCompatActivity() {
                         generoMap[nombre] = id
                     }
                     // Configuramos el adaptador del Spinner
-                    val adapterGeneros = ArrayAdapter(this, android.R.layout.simple_spinner_item, generosList)
+                    val adapterGeneros = ArrayAdapter(this, R.layout.spinner_item, generosList)
+                    adapterGeneros.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     spinnerGenero.adapter = adapterGeneros
                 } catch (e: JSONException) {
                     e.printStackTrace()
+                } finally {
+                    progressDialog.dismiss() // Ocultar el loader cuando se complete la carga
                 }
             },
             { error ->
                 // Manejo de errores
                 error.printStackTrace()
+                progressDialog.dismiss() // Ocultar el loader cuando se complete la carga
             }
         )
 
@@ -144,6 +160,7 @@ class RegisterView : AppCompatActivity() {
     }
 
     private fun registrarPaciente(nombre: String, idGenero: Int?, edad: String, dni: String, email: String, password: String) {
+        progressDialog2.show() // Mostrar el loader antes de hacer la petición
         val url = "https://pillpop-backend.onrender.com/insertarPaciente"  // Reemplaza con la URL correcta
 
         // Crea un objeto JSON con los datos del paciente
@@ -157,6 +174,7 @@ class RegisterView : AppCompatActivity() {
             jsonObject.put("contrasena", password)
         } catch (e: JSONException) {
             e.printStackTrace()
+            progressDialog2.dismiss()
         }
 
         // Crear una petición POST con Volley
@@ -178,16 +196,19 @@ class RegisterView : AppCompatActivity() {
                     Correopaciente = email
 
                     Log.d("Registro", "$mensaje con ID: $Idpaciente")
+                    progressDialog2.dismiss()
                     // Redirigir al usuario a la vista de bienvenida
                     val intent = Intent(this, BienvenidoView::class.java)
                     startActivity(intent)
                 } catch (e: JSONException) {
                     e.printStackTrace()
+                    progressDialog2.dismiss()
                 }
             },
             { error ->
                 // Manejar errores
                 Log.e("Registro", "Error al registrar el paciente: ${error.message}")
+                progressDialog2.dismiss()
             }
         )
 
