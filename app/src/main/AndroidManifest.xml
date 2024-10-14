@@ -34,20 +34,29 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
-
         <activity
             android:name=".PrincipalView"
-            android:exported="true"
-            >
+            android:exported="false" />
+        <activity
+            android:name=".AcercaPillPop"
+            android:exported="false" />
+        <activity
+            android:name=".EditarPerfilView"
+            android:exported="false" />
+        <activity
+            android:name=".CambiarContraseñaView"
+            android:exported="false" />
+
+        <activity
+            android:name=".InicioView"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".InicioView"
-            android:exported="false" />
+
 
         <uses-native-library
             android:name="libOpenCL.so"

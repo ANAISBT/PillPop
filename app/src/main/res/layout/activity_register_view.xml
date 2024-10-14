@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/EmpezarTomaBtn"
@@ -8,206 +9,299 @@
     tools:context=".RegisterView"
     android:background="#29282B">
 
-    <TextView
-        android:id="@+id/DatosText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Ingrese tus datos"
-        android:textColor="#FFFFFF"
-        android:textSize="25sp"
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="50dp"
+        app:cardBackgroundColor="#29282B"
+        app:cardElevation="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/NombreText"
-        style="@style/Labels"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Nombre Completo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/DatosText" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/NombreInput"
-        style="@style/Inputs"
-        android:layout_width="330dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="#1FB5C0"
-        android:ems="10"
-        android:inputType="text"
-        android:text=""
-        android:textColor="#721FB5C0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/NombreText" />
+            <TextView
+                android:id="@+id/DatosText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Ingrese tus datos"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="30dp"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/GeneroText"
-        style="@style/Labels"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Género"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.112"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/NombreInput" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="start">
 
-    <Spinner
-        android:id="@+id/generosDrop"
-        android:layout_width="330dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="#1FB5C0"
-        android:textColor="#1FB5C0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/GeneroText" />
+                <TextView
+                    android:id="@+id/NombreText"
+                    style="@style/Labels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Nombre Completo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.141"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/DatosText" />
 
-    <TextView
-        android:id="@+id/EdadText"
-        style="@style/Labels"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Edad"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.108"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/generosDrop" />
+                <EditText
+                    android:id="@+id/NombreInput"
+                    style="@style/Inputs"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#1FB5C0"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:text=""
+                    android:maxLength="50"
+                    android:textSize="16sp"
+                    android:textColor="#721FB5C0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.506"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/NombreText" />
 
-    <EditText
-        android:id="@+id/EdadInput"
-        style="@style/Inputs"
-        android:layout_width="100dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="#1FB5C0"
-        android:ems="10"
-        android:inputType="text"
-        android:text=""
-        android:textColor="#721FB5C0"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.131"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/EdadText" />
+                <TextView
+                    android:id="@+id/nombreErrorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/DNIText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="DNI"
-        android:textAppearance="@style/Labels"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.103"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/EdadInput" />
+                <TextView
+                    android:id="@+id/GeneroText"
+                    style="@style/Labels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Sexo"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.112"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/NombreInput" />
 
-    <EditText
-        android:id="@+id/DNIInput"
-        style="@style/Inputs"
-        android:layout_width="330dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="#1FB5C0"
-        android:inputType="textEmailAddress"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/DNIText" />
+                <Spinner
+                    android:id="@+id/generosDrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#1FB5C0"
+                    android:textColor="#1FB5C0"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.506"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/GeneroText" />
 
-    <TextView
-        android:id="@+id/CorreoText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Correo Electrónico"
-        android:textAppearance="@style/Labels"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.138"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/DNIInput" />
+                <TextView
+                    android:id="@+id/EdadText"
+                    style="@style/Labels"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Edad"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.108"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/generosDrop" />
 
-    <EditText
-        android:id="@+id/EmailAddressInput"
-        style="@style/Inputs"
-        android:layout_width="330dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="#1FB5C0"
-        android:inputType="textEmailAddress"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/CorreoText" />
+                <EditText
+                    android:id="@+id/EdadInput"
+                    style="@style/Inputs"
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:inputType="number"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#1FB5C0"
+                    android:ems="10"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:maxLength="2"
+                    android:textColor="#721FB5C0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.131"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/EdadText" />
 
-    <TextView
-        android:id="@+id/ContraseñaText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Contraseña"
-        android:textAppearance="@style/Labels"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.122"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/EmailAddressInput" />
+                <TextView
+                    android:id="@+id/edadErrorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone" />
 
-    <EditText
-        android:id="@+id/editTextTextPassword"
-        style="@style/Inputs"
-        android:layout_width="330dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="4dp"
-        android:backgroundTint="#1FB5C0"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ContraseñaText" />
+                <TextView
+                    android:id="@+id/DNIText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="DNI"
+                    android:textSize="16sp"
+                    android:textAppearance="@style/Labels"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.103"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/EdadInput" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.978"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTextTextPassword"
-        app:srcCompat="@drawable/doctor" />
+                <EditText
+                    android:id="@+id/DNIInput"
+                    style="@style/Inputs"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#1FB5C0"
+                    android:inputType="number"
+                    android:text=""
+                    android:maxLength="8"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.506"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/DNIText" />
 
-    <Button
-        android:id="@+id/Registrarse_btn"
-        android:layout_width="213dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="168dp"
-        android:backgroundTint="#1FB5C0"
-        android:text="Registrarse"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ContraseñaText" />
+
+                <TextView
+                    android:id="@+id/dniErrorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone" />
+
+
+                <TextView
+                    android:id="@+id/CorreoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Correo Electrónico"
+                    android:textSize="16sp"
+                    android:textAppearance="@style/Labels"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.138"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/DNIInput" />
+
+                <EditText
+                    android:id="@+id/EmailAddressInput"
+                    style="@style/Inputs"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#1FB5C0"
+                    android:inputType="textEmailAddress"
+                    android:text=""
+                    android:maxLength="100"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.493"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/CorreoText" />
+
+
+                <TextView
+                    android:id="@+id/emailErrorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/ContraseñaText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Contraseña"
+                    android:textAppearance="@style/Labels"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.122"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/EmailAddressInput" />
+
+                <EditText
+                    android:id="@+id/editTextTextPassword"
+                    style="@style/Inputs"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="4dp"
+                    android:backgroundTint="#1FB5C0"
+                    android:ems="10"
+                    android:inputType="textPassword"
+                    android:text=""
+                    android:maxLength="100"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.493"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ContraseñaText" />
+
+
+                <TextView
+                    android:id="@+id/passwordErrorText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="16dp">
+
+                <Button
+                    android:id="@+id/Registrarse_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#1FB5C0"
+                    android:textSize="16sp"
+                    android:text="Registrarse" />
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="91dp"
+                    android:layout_height="146dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/doctor" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

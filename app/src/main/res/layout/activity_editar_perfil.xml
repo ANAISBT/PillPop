@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Nombre de la Pastilla"
+                android:text="Nombre del paciente"
                 android:textAppearance="@style/Labels" />
 
             <EditText

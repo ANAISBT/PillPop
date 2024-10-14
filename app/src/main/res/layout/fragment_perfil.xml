@@ -78,7 +78,7 @@
                         android:id="@+id/tvProfileName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="David Santos Mauricio"
+                        android:text="Nombre del paciente"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
 
@@ -87,7 +87,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="30 Años"
+                        android:text="X Años"
                         android:textColor="#B0BEC5"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -212,7 +212,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="23dp"
-                    android:text="Cerrar Sesiòn"
+                    android:text="Cerrar Sesión"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
             </LinearLayout>

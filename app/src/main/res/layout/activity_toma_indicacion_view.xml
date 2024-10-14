@@ -47,7 +47,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-medium"
         android:lineSpacingExtra="8sp"
-        android:text="3. Muestre su boca abierta sin la pastilla dentro."
+        android:text="3. Muestre su boca abierta tras tomar la pastilla"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="14sp"

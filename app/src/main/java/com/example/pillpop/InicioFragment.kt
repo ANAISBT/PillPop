@@ -47,7 +47,10 @@ class InicioFragment : Fragment() {
         val formattedDate = sdf.format(currentDate)
 
         // Llamar al servicio para obtener medicamentos
-        obtenerMedicamentos(6, formattedDate)
+        val id = Idpaciente
+        if (id != null) {
+            obtenerMedicamentos(id, formattedDate)
+        }
 
         // Establecer el texto del TextView
         val sdfDisplay = SimpleDateFormat("EEEE dd 'de' MMMM 'del' yyyy", Locale("es", "ES"))
@@ -81,13 +84,15 @@ class InicioFragment : Fragment() {
 
                 for (i in 0 until jsonArray.length()) {
                     val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                    var horaToma = jsonObject.getString("hora_minutos")
+                    horaToma = convertirHoraFormato12Horas(horaToma)
                     val medicamento = Medicamento(
                         jsonObject.getInt("id"),
                         jsonObject.getString("nombre"),
                         jsonObject.getInt("dosis"),
-                        6,
+                        pacienteId,
                         fechaHoy,
-                        jsonObject.getString("hora_minutos"),
+                        horaToma,
                         jsonObject.getInt("toma")
                     )
                     medicamentosList.add(medicamento)
@@ -97,8 +102,8 @@ class InicioFragment : Fragment() {
                 adapter = MedicamentoAdapter(medicamentosList)
                 adapter.setOnItemClickListener { medicamentoId ->
                     // Manejar el clic en el medicamento, puedes mostrar un Toast o realizar otra acción
-                    Toast.makeText(context, "ID del medicamento seleccionado: $medicamentoId", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(requireContext(), MainActivity::class.java).apply {
+                    //Toast.makeText(context, "ID del medicamento seleccionado: $medicamentoId", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(context, TomaIndicacionView::class.java).apply {
                         putExtra("ID_MEDICAMENTO", medicamentoId) // Pasa el ID del medicamento
                     }
                     startActivity(intent) // Inicia MainActivity
@@ -113,6 +118,18 @@ class InicioFragment : Fragment() {
 
         // Agregar la solicitud a la cola
         requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun convertirHoraFormato12Horas(hora24: String): String {
+        // Define los formatos para 24 horas y 12 horas
+        val formato24Horas = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val formato12Horas = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+        // Convierte la cadena de 24 horas al formato de fecha/hora
+        val date = formato24Horas.parse(hora24)
+
+        // Retorna la hora en formato de 12 horas
+        return formato12Horas.format(date!!)
     }
 
     companion object {
