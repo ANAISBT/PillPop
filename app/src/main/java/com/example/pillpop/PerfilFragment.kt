@@ -1,5 +1,6 @@
 package com.example.pillpop
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -22,6 +23,7 @@ class PerfilFragment : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +55,26 @@ class PerfilFragment : Fragment() {
             val intent = Intent(requireContext(),EditarPerfilView::class.java)
             startActivity(intent)
         }
+
+        // Inicializa las vistas para cerrar sesión
+        val cerrarSesionImg: ImageView = view.findViewById(R.id.CerrarSesionImg)
+        val cerrarSesionText: TextView = view.findViewById(R.id.CerrarSesionText)
+
+        val cerrarSesionIntent = Intent(requireContext(), InicioView::class.java) // Cambia esto al nombre de tu actividad de inicio de sesión
+
+        val cerrarSesionListener = View.OnClickListener {
+            // Establece doctorId a 0
+            Idpaciente = 0 // Asegúrate de que Idpaciente sea una variable accesible desde aquí
+
+            // Aquí cierras la sesión
+            val cerrarSesionIntent = Intent(requireContext(), InicioView::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+            startActivity(cerrarSesionIntent)
+        }
+
+        cerrarSesionImg.setOnClickListener(cerrarSesionListener)
+        cerrarSesionText.setOnClickListener(cerrarSesionListener)
 
         return view
     }
