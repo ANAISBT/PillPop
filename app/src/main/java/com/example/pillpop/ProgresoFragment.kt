@@ -123,7 +123,8 @@ class ProgresoFragment : Fragment() {
                 calendario.get(Calendar.MONTH),
                 calendario.get(Calendar.DAY_OF_MONTH)
             )
-            datePickerDialog.datePicker.minDate = calendario.timeInMillis
+            //datePickerDialog.datePicker.minDate = calendario.timeInMillis
+            datePickerDialog.datePicker.maxDate = calendario.timeInMillis
             datePickerDialog.show()
         }
 
@@ -144,7 +145,8 @@ class ProgresoFragment : Fragment() {
                 calendarioInicio.get(Calendar.MONTH),
                 calendarioInicio.get(Calendar.DAY_OF_MONTH)
             )
-            datePickerDialog.datePicker.minDate = calendarioInicio.timeInMillis
+            //datePickerDialog.datePicker.minDate = calendarioInicio.timeInMillis
+            datePickerDialog.datePicker.maxDate = calendario.timeInMillis
             datePickerDialog.show()
         }
 
@@ -166,6 +168,7 @@ class ProgresoFragment : Fragment() {
                 calendarioFin.get(Calendar.DAY_OF_MONTH)
             )
             datePickerDialog.datePicker.minDate = calendarioInicio.timeInMillis
+            datePickerDialog.datePicker.maxDate = calendario.timeInMillis
             datePickerDialog.show()
         }
 
@@ -375,7 +378,7 @@ class ProgresoFragment : Fragment() {
         context: Fragment,
         fechaInicio: String,
         fechaFin: String,
-        pacienteId: Int, // Cambiado de doctorId y pacienteDni a pacienteId
+        pacienteId: Int,
         onSuccess: (DatosReporteResponse) -> Unit,
         onError: (String) -> Unit
     ) {
@@ -414,19 +417,19 @@ class ProgresoFragment : Fragment() {
             Request.Method.POST, url, jsonObject,
             { response ->
                 try {
-                    // Convertir la respuesta en el modelo de datos
-                    val datosReporteList = response.getJSONArray("datosReporte")
-                    val datosReporte = mutableListOf<Reporte>()
+                    // Aquí cambiamos para manejar JSONObject en vez de JSONArray
+                    val datosReporte = response.optJSONObject("datosReporte")
+                    val listaReportes = mutableListOf<Reporte>()
 
-                    for (i in 0 until datosReporteList.length()) {
-                        val item = datosReporteList.getJSONObject(i)
-                        val nombreMes = "${item.getString("NombreMesInicio")} - ${item.getString("NombreMesFin")}"
+                    // Si datosReporte es un JSONObject, lo procesamos
+                    if (datosReporte != null) {
+                        val nombreMes = "${datosReporte.getString("NombreMesInicio")} - ${datosReporte.getString("NombreMesFin")}"
                         val reporte = Reporte(
-                            nombreCompleto = item.getString("nombreCompleto"),
+                            nombreCompleto = datosReporte.getString("nombreCompleto"),
                             NombreMes = nombreMes,
                             fecha = "" // Puedes ajustar esto según sea necesario
                         )
-                        datosReporte.add(reporte)
+                        listaReportes.add(reporte)
                     }
 
                     // Procesar tratamiento
@@ -439,7 +442,8 @@ class ProgresoFragment : Fragment() {
                             id = item.getInt("id"),
                             nombrePastilla = item.getString("nombrePastilla"),
                             totalDosis = item.getString("totalDosis"),
-                            tipo = item.getString("tipo")
+                            tipo = item.getString("tipo"),
+                            nombreDoctor = item.getString("nombreDoctor")
                         )
                         tratamiento.add(tratamientoItem)
                     }
@@ -461,7 +465,7 @@ class ProgresoFragment : Fragment() {
 
                     // Crear el objeto DatosReporteResponse
                     val datosReporteResponse = DatosReporteResponse(
-                        datosReporte = datosReporte,
+                        datosReporte = listaReportes, // Pasamos la lista de reportes
                         tratamiento = tratamiento,
                         tomasDiarias = tomasDiarias
                     )
@@ -484,6 +488,7 @@ class ProgresoFragment : Fragment() {
         // Añadir la solicitud a la cola
         queue.add(jsonObjectRequest)
     }
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun convertirFechaCorrida(fecha: String): String {
@@ -575,6 +580,13 @@ class ProgresoFragment : Fragment() {
         subtitulo.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
         subtitulo.textSize = 20f
 
+        // Obtén la fecha actual
+        val fechaHoy = LocalDate.now()
+
+        // Formato de fecha deseado
+        val formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy")
+        val fechaFormateada = fechaHoy.format(formatter)
+
         canvas.drawText("Datos de Reporte:", 10f, y, subtitulo)
         y += 40f
 
@@ -585,7 +597,7 @@ class ProgresoFragment : Fragment() {
         canvas.drawText("${datosReporte.datosReporte[0].nombreCompleto}", 100f, y, infoNormalPaint) // Añadiendo el valor en normal
         y += 20f
         canvas.drawText("Fecha:", 10f, y, infoBoldPaint)
-        canvas.drawText("${convertirFechaCorrida(fechaUnica)}", 100f, y, infoNormalPaint) // Añadiendo el valor en normal
+        canvas.drawText(fechaFormateada, 100f, y, infoNormalPaint) // Añadiendo el valor en normal
 
         // Espacio entre la información y la tabla
         y += 40f
@@ -601,7 +613,8 @@ class ProgresoFragment : Fragment() {
         // Títulos de la tabla
         canvas.drawText("Tratamiento", 20f, y + 15f, tableTextPaint)
         canvas.drawText("Dosis", 200f, y + 15f, tableTextPaint)
-        canvas.drawText("Frecuencia", 440f, y + 15f, tableTextPaint)
+        canvas.drawText("Frecuencia", 300f, y + 15f, tableTextPaint)
+        canvas.drawText("Doctor", 480f, y + 15f, tableTextPaint)
 
         y += 40f
         for (tratamiento in datosReporte.tratamiento) {
@@ -612,7 +625,8 @@ class ProgresoFragment : Fragment() {
             }
             drawMultilineText(canvas, tratamiento.nombrePastilla, 20f, y, tableTextPaint, 180f)
             drawMultilineText(canvas, tratamiento.totalDosis, 200f, y, tableTextPaint, 80f)
-            drawMultilineText(canvas, tratamiento.tipo, 440f, y, tableTextPaint, 140f)
+            drawMultilineText(canvas, tratamiento.tipo, 300f, y, tableTextPaint, 140f)
+            drawMultilineText(canvas, tratamiento.nombreDoctor, 480f, y, tableTextPaint, 140f)
             y += 50f
         }
 
@@ -669,7 +683,7 @@ class ProgresoFragment : Fragment() {
             for (toma in tomas) {
                 val indice = nombresPastillas.indexOf(toma.nombre) + 1 // +1 para ignorar la columna de fecha
                 if (indice > 0) {
-                    fila[indice] = if (toma.toma == 1) "✔" else "✖"
+                    fila[indice] = if (toma.toma == 1) "Si" else "No"
                 }
             }
 
@@ -681,7 +695,7 @@ class ProgresoFragment : Fragment() {
         canvas.drawRect(10f, y, 806f, y + 20f, tablePaint)
 
         for (i in registroTitulos.indices) {
-            canvas.drawText(registroTitulos[i], 20f + i * 140f, y + 15f, tableTextPaint)
+            canvas.drawText(registroTitulos[i], 20f + i * 150f, y + 15f, tableTextPaint)
         }
 
 // Espacio para los registros
@@ -694,7 +708,7 @@ class ProgresoFragment : Fragment() {
                     startNewPage()
                     y = 100f
                 }
-                canvas.drawText(registro[i], 20f + i * 140f, y + 20f, tableTextPaint)
+                canvas.drawText(registro[i], 20f + i * 150f, y + 20f, tableTextPaint)
             }
             y += 30f
         }
