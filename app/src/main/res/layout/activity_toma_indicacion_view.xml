@@ -95,6 +95,8 @@
         android:backgroundTint="#1FB3BE"
         android:text="Empezar"
         android:textColorLink="#1FB3BE"
+        android:background="@drawable/rounded_corners_icon_turquesa"
+        android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

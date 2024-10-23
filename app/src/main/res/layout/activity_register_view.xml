@@ -19,7 +19,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,7 +41,7 @@
                 android:text="Ingrese tus datos"
                 android:textColor="#FFFFFF"
                 android:textSize="25sp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="35dp"
                 android:layout_marginBottom="30dp"
                 android:layout_gravity="center_horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -288,22 +290,29 @@
 
                 <Button
                     android:id="@+id/Registrarse_btn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="190dp"
+                    android:layout_height="50dp"
                     android:backgroundTint="#1FB5C0"
-                    android:textSize="16sp"
-                    android:text="Registrarse" />
+                    android:text="Registrarse"
+                    android:background="@drawable/rounded_corners_icon_turquesa"
+                    android:textAllCaps="false"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.363"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ContraseñaText" />
+
 
                 <ImageView
                     android:id="@+id/imageView2"
                     android:layout_width="91dp"
-                    android:layout_height="146dp"
+                    android:layout_height="176dp"
                     android:layout_marginStart="16dp"
                     android:src="@drawable/doctor" />
 
             </LinearLayout>
 
         </LinearLayout>
+        </ScrollView>
 
     </androidx.cardview.widget.CardView>
 
