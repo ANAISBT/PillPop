@@ -39,8 +39,13 @@ class MedicamentoAdapter(private val medicamentos: List<Medicamento>) : Recycler
 
         // Configura el click listener en el CardView
         viewHolder.cardView.setOnClickListener {
-            onItemClickListener?.invoke(medicamento.registro_id) // Envía el ID del medicamento
+            if (medicamento.tomado == 0) {
+                onItemClickListener?.invoke(medicamento.registro_id) // Envía el ID del medicamento
+            }
         }
+
+        viewHolder.cardView.isClickable = (medicamento.tomado == 0)
+        viewHolder.cardView.isFocusable = (medicamento.tomado == 0)
     }
 
     override fun getItemCount(): Int {
