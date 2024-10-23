@@ -24,7 +24,7 @@ class TomaIndicacionView : AppCompatActivity() {
 
         if (idMedicamento != -1) {
             // Aquí puedes usar el idMedicamento según sea necesario
-            Toast.makeText(this, "ID del medicamento: $idMedicamento", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(this, "ID del medicamento: $idMedicamento", Toast.LENGTH_SHORT).show()
         }
 
         button.setOnClickListener {

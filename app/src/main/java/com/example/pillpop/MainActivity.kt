@@ -8,6 +8,8 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -27,7 +29,6 @@ import com.example.pillpop.Constants.MODEL_PATH
 import com.example.pillpop.databinding.ActivityMainBinding
 import org.json.JSONException
 import org.json.JSONObject
-import java.io.IOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -55,6 +56,16 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
 
     private var perfilId: Int = 0
     private var idMedicamento: Int = 0
+
+    private val images = arrayOf(
+        R.drawable.imagen1, // Reemplaza con tus imágenes
+        R.drawable.imagen2,
+        R.drawable.imagen3,
+        R.drawable.imagen4,
+        R.drawable.imagen5,
+        R.drawable.imagen6
+    )
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -233,7 +244,7 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
     private fun showAlert2(message: String) {
         runOnUiThread {
             AlertDialog.Builder(this)
-                .setTitle("Detección de Pastilla")
+                .setTitle("Detección de Boca Abierta")
                 .setMessage(message)
                 .setPositiveButton("OK") { dialog, _ ->
                     dialog.dismiss()
@@ -244,10 +255,21 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
 
     private fun showAlert3(message: String) {
         runOnUiThread {
+            val dialogView = layoutInflater.inflate(R.layout.dialog_with_image, null)
+            val imageView = dialogView.findViewById<ImageView>(R.id.imageView)
+            val textViewMessage = dialogView.findViewById<TextView>(R.id.textViewMessage)
+
+            // Cargar la imagen
+            val randomIndex = (images.indices).random() // Genera un índice aleatorio
+            imageView.setImageResource(images[randomIndex]) // Carga la imagen aleatoria // Cambia a tu archivo de imagen
+
+
+
             AlertDialog.Builder(this)
                 .setTitle("Detección de Pastilla Completa")
                 .setMessage(message)
                 .setIcon(R.drawable.check_circular_habilitado)
+                .setView(dialogView)
                 .setPositiveButton("OK") { dialog, _ ->
                     dialog.dismiss()
                     val intent = Intent(this@MainActivity, PrincipalView::class.java)
@@ -328,7 +350,7 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
             Response.Listener { response ->
                 try {
                     val mensaje = response.getString("mensaje")
-                    Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
