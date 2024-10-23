@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley
 import org.json.JSONException
 import org.json.JSONObject
 import android.util.Patterns
+import android.widget.Toast
 
 class RegisterView : AppCompatActivity() {
 
@@ -144,6 +145,7 @@ class RegisterView : AppCompatActivity() {
                     spinnerGenero.adapter = adapterGeneros
                 } catch (e: JSONException) {
                     e.printStackTrace()
+                    showErrorAndFinish("Error al cargar los géneros. Intente nuevamente")
                 } finally {
                     progressDialog.dismiss() // Ocultar el loader cuando se complete la carga
                 }
@@ -151,12 +153,19 @@ class RegisterView : AppCompatActivity() {
             { error ->
                 // Manejo de errores
                 error.printStackTrace()
+                showErrorAndFinish("Error al cargar los géneros. Intente nuevamente")
                 progressDialog.dismiss() // Ocultar el loader cuando se complete la carga
             }
         )
 
         // Añadimos la petición a la cola de Volley
         requestQueue.add(jsonArrayRequest)
+    }
+
+    private fun showErrorAndFinish(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        progressDialog.dismiss() // Asegurarse de que el loader se oculte
+        finish() // Terminar la actividad
     }
 
     private fun registrarPaciente(nombre: String, idGenero: Int?, edad: String, dni: String, email: String, password: String) {
@@ -207,7 +216,7 @@ class RegisterView : AppCompatActivity() {
             },
             { error ->
                 // Manejar errores
-                Log.e("Registro", "Error al registrar el paciente: ${error.message}")
+                Log.e("Registro", "Error al registrar el paciente. Intente nuevamente")
                 progressDialog2.dismiss()
             }
         )

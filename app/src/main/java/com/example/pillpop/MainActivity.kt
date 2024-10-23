@@ -250,7 +250,10 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
                 .setIcon(R.drawable.check_circular_habilitado)
                 .setPositiveButton("OK") { dialog, _ ->
                     dialog.dismiss()
+                    val intent = Intent(this@MainActivity, PrincipalView::class.java)
+                    startActivity(intent)
                 }
+                .setCancelable(false)
                 .show()
         }
     }
@@ -299,8 +302,6 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
                 Alert4 = true
                 // Aquí se realiza la solicitud para cambiar la toma a 1
                 cambiarToma(idMedicamento) // o el ID que corresponda
-                val intent = Intent(this@MainActivity, PrincipalView::class.java)
-                startActivity(intent)
             }
 
             if (bocaCerradaDetected && !bocaAbiertaDetected && !pastillaDetected && Alert3 && !Alert5) {

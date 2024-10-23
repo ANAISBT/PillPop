@@ -65,6 +65,7 @@ class Login : AppCompatActivity() {
 
     }
     private fun iniciarSesion(dni: String, contrasena: String) {
+        progressDialog.setMessage("Iniciando sesión...")
         progressDialog.show()
         val queue = Volley.newRequestQueue(this)
         val url = "https://pillpop-backend.onrender.com/loginPaciente"
@@ -101,7 +102,7 @@ class Login : AppCompatActivity() {
                         Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
-                    Toast.makeText(this, "Error en la respuesta: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Error al Iniciar Sesión. Intente nuevamente", Toast.LENGTH_SHORT).show()
                 }
                 finally {
                     progressDialog.dismiss()
@@ -112,11 +113,11 @@ class Login : AppCompatActivity() {
                     val statusCode = error.networkResponse.statusCode
                     val errorMsg = String(error.networkResponse.data)
                     Log.e("VolleyError", "Error code: $statusCode, Error message: $errorMsg")
-                    Toast.makeText(this, "Error en el servidor: $statusCode", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error en el servidor. Intente nuevamente", Toast.LENGTH_LONG).show()
                     progressDialog.dismiss()
                 } else {
                     Log.e("VolleyError", "Error: ${error.message}")
-                    Toast.makeText(this, "Error de conexión: ${error.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Error de conexión. Intente nuevamente", Toast.LENGTH_LONG).show()
                     progressDialog.dismiss()
                 }
             }

@@ -65,10 +65,15 @@ class EditarPerfilView : AppCompatActivity() {
                         val generoSeleccionado = if (it.sexo_id == 1) "Masculino" else "Femenino"
                         val spinnerPosition = generosList.indexOf(generoSeleccionado)
                         spinnerGenero.setSelection(spinnerPosition)
+                        progressDialog.dismiss()
+                    }?: run {
+                        Toast.makeText(this, "No se encontraron datos del paciente", Toast.LENGTH_LONG).show()
+                        finish()
                     }
                 },
                 onError = { errorMessage ->
                     Toast.makeText(this, "Error: $errorMessage", Toast.LENGTH_LONG).show()
+                    finish()
                 }
             )
         }
@@ -81,32 +86,55 @@ class EditarPerfilView : AppCompatActivity() {
 
         EditarPerfilButton= findViewById(R.id.EditarPerfilButton)
         EditarPerfilButton.setOnClickListener {
-            val nombreCompleto = nombreCompletoEditInput.text.toString()
-            val dni = dniEditInput.text.toString().toIntOrNull() ?: 0
-            val edad = edadEditInput.text.toString().toIntOrNull() ?: 0
-            val correoElectronico = correoElectronicoEditInput.text.toString()
-            val sexoId = spinnerGenero.selectedItemPosition + 1 // Ajusta según cómo se manejen los sexos en tu API
+            // Validaciones de entrada
+            val nombreCompleto = nombreCompletoEditInput.text.toString().trim()
+            val dni = dniEditInput.text.toString().toIntOrNull()
+            val edad = edadEditInput.text.toString().toIntOrNull()
+            val correoElectronico = correoElectronicoEditInput.text.toString().trim()
+            val sexoId = spinnerGenero.selectedItemPosition + 1
 
-            val paciente = Idpaciente?.let { it1 -> Paciente(it1,nombreCompleto, sexoId, edad, dni, correoElectronico) }
+            // Validaciones
+            when {
+                nombreCompleto.isEmpty() -> {
+                    Toast.makeText(this, "El nombre completo no puede estar vacío", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                dni == null || dni.toString().length != 8 -> {
+                    Toast.makeText(this, "El DNI debe ser un número de 8 dígitos", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                edad == null || edad <= 0 -> {
+                    Toast.makeText(this, "Por favor ingresa una edad válida", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                !android.util.Patterns.EMAIL_ADDRESS.matcher(correoElectronico).matches() -> {
+                    Toast.makeText(this, "Correo electrónico no válido", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+                else -> {
+                    val paciente = Idpaciente?.let { Paciente(it, nombreCompleto, sexoId, edad, dni, correoElectronico) }
 
-            Idpaciente?.let { it1 ->
-                if (paciente != null) {
-                    editarDatosPaciente(this, it1, paciente,
-                        onSuccess = { mensaje ->
-                            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
-                            finish()
-                        },
-                        onError = { errorMessage ->
-                            Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                    Idpaciente?.let { id ->
+                        paciente?.let {
+                            editarDatosPaciente(this, id, it,
+                                onSuccess = { mensaje ->
+                                    Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show()
+                                    finish()
+                                },
+                                onError = { errorMessage ->
+                                    Toast.makeText(this, "Error al actualizar los datos: $errorMessage", Toast.LENGTH_SHORT).show()
+                                }
+                            )
                         }
-                    )
+                    }
                 }
             }
         }
-
     }
 
     fun obtenerDatosPaciente(context: Context, id: Int, onSuccess: (Paciente?) -> Unit, onError: (String) -> Unit) {
+        progressDialog.setMessage("Onteniendo datos del paciente...")
+        progressDialog.show()
         val url = "https://pillpop-backend.onrender.com/paciente/$id"
 
         // Crear la cola de solicitudes
@@ -164,13 +192,10 @@ class EditarPerfilView : AppCompatActivity() {
                     onSuccess(mensaje)
                 } catch (e: Exception) {
                     onError("Error al procesar la respuesta: ${e.message}")
-                }finally {
-                    progressDialog.dismiss()
                 }
             },
             { error ->
                 onError("Error en la solicitud: ${error.message}")
-                progressDialog.dismiss()
             }
         ) {
             override fun getHeaders(): Map<String, String> {

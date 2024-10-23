@@ -67,6 +67,7 @@ class InicioFragment : Fragment() {
     }
 
     private fun obtenerMedicamentos(pacienteId: Int, fechaHoy: String) {
+        progressDialog.setMessage("Cargando tomas para el día de hoy...")
         progressDialog.show()
         // Crear la cola de solicitudes de Volley
         val requestQueue = Volley.newRequestQueue(requireContext())
@@ -122,12 +123,12 @@ class InicioFragment : Fragment() {
                     // Si no se encontraron medicamentos, muestra el mensaje
                     val mensaje = response.getString("mensaje")
                     progressDialog.dismiss()
-                    Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
                 }
             },
             { error ->
                 // Manejar errores
-                Toast.makeText(context, "Error al obtener datos: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Error al obtener las tomas del día de hoy. Cargue nuevamente la vista", Toast.LENGTH_SHORT).show()
                 progressDialog.dismiss()
             }
         )

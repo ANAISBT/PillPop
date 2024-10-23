@@ -49,7 +49,7 @@ class CambiarContraseñaView : AppCompatActivity() {
         EditarContrasenaButton= findViewById(R.id.EditarContrasenaButton)
         EditarContrasenaButton.setOnClickListener {
             val nuevaContrasena = contrasenaEditInput.text.toString()
-            if (nuevaContrasena.length <= 6) {
+            if (nuevaContrasena.isBlank() || nuevaContrasena.length <= 6) {
                 // Mostrar un mensaje de error, por ejemplo, usando un Toast
                 Toast.makeText(this, "La nueva contraseña debe tener más de 6 caracteres", Toast.LENGTH_SHORT).show()
             } else {
@@ -59,7 +59,7 @@ class CambiarContraseñaView : AppCompatActivity() {
         }
     }
     private fun editarContrasenaPaciente(id: Int, nuevaContrasena: String) {
-        progressDialog.setMessage("Actualizando contraseña...")
+        progressDialog.setMessage("Actualizando contraseña... Por favor, espere...")
         progressDialog.show()
 
         // La URL de tu nuevo endpoint
@@ -102,6 +102,7 @@ class CambiarContraseñaView : AppCompatActivity() {
     }
 
     private fun obtenerDatosPaciente() {
+        progressDialog.setMessage("Obteniendo los datos del paciente...")
         progressDialog.show()
         val url = "https://pillpop-backend.onrender.com/paciente/$Idpaciente" // Cambia a la ruta del backend
 

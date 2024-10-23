@@ -472,11 +472,11 @@ class ProgresoFragment : Fragment() {
 
                     onSuccess(datosReporteResponse)
                 } catch (e: Exception) {
-                    onError("Error al procesar la respuesta: ${e.message}")
+                    onError("Error al procesar la respuesta")
                 }
             },
             { error ->
-                onError("Error en la solicitud: ${error.message}")
+                onError("Error en la solicitud")
             }
         ) {
             // Sobreescribir el método getHeaders para establecer encabezados
