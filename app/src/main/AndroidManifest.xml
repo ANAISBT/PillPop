@@ -14,42 +14,50 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Pillpop"
-        tools:targetApi="31">
+        android:theme="@style/Theme.PillPop"
+        tools:targetApi="31"
+        android:requestLegacyExternalStorage="true">
         <activity
             android:name=".Login"
-            android:exported="false" />
-        <activity
-            android:name=".TomaIndicacionView"
             android:exported="false" />
         <activity
             android:name=".TomaPastillaView"
             android:exported="false" />
         <activity
-            android:name=".DatosView"
+            android:name=".RegisterView"
             android:exported="false" />
         <activity
             android:name=".BienvenidoView"
             android:exported="false" />
         <activity
-            android:name=".InicioView"
-            android:exported="false" />
-        <activity
-            android:name=".Perfil_View"
+            android:name=".TomaIndicacionView"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"
-            >
+            android:exported="false" />
+        <activity
+            android:name=".PrincipalView"
+            android:exported="false" />
+        <activity
+            android:name=".AcercaPillPop"
+            android:exported="false" />
+        <activity
+            android:name=".EditarPerfilView"
+            android:exported="false" />
+        <activity
+            android:name=".CambiarContraseñaView"
+            android:exported="false" />
+
+        <activity
+            android:name=".InicioView"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".PrincipalView"
-            android:exported="false" />
+
 
         <uses-native-library
             android:name="libOpenCL.so"

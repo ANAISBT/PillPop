@@ -1,58 +1,812 @@
 package com.example.pillpop
 
+import android.app.DatePickerDialog
+import android.app.ProgressDialog
+import android.content.Intent
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Typeface
+import android.graphics.pdf.PdfDocument
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.text.TextPaint
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.SearchView
+import android.widget.Spinner
+import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import com.example.pillpop.databinding.FragmentProgresoBinding
+import com.google.gson.Gson
+import org.json.JSONObject
+import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ProgresoFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ProgresoFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentProgresoBinding
+    private lateinit var progressDialog: ProgressDialog
+    private lateinit var requestQueue: RequestQueue
+    private lateinit var buscarPacienteButton: ImageButton
+    private lateinit var dniInput: EditText
+    private lateinit var nombreCompletoInput: EditText
+    private lateinit var editTextDateInicio: EditText
+    private lateinit var editTextDateFin: EditText
+    private lateinit var editTextDateUnico: EditText
+    // Declaración de variables que se pueden leer en todo el fragmento
+    private var fechaInicio: String = ""
+    private var fechaFin: String = ""
+    private var fechaUnica: String = ""
+    private var dniPaciente: String = ""
+    private var nombreCompleto: String = ""
+    private var frecuenciaSeleccionada: String = ""
+    private lateinit var datosReporte: DatosReporteResponse
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_progreso, container, false)
+        binding = FragmentProgresoBinding.inflate(inflater, container, false)
+        val view = binding.root
+
+        val spinnerFrecuenciaTiempo: Spinner = view.findViewById(R.id.FrecuenciaReporteDrop)
+        val frecuenciaTiempoList = resources.getStringArray(R.array.frecuencia_reporte_array)
+        val adapterFrecuenciaTiempo = ArrayAdapter(requireContext(), R.layout.spinner_item, frecuenciaTiempoList)
+        adapterFrecuenciaTiempo.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        spinnerFrecuenciaTiempo.adapter = adapterFrecuenciaTiempo
+
+        val linearEntreFechas: LinearLayout = view.findViewById(R.id.LinearEntreFechas)
+        val linearFechaUnica: LinearLayout = view.findViewById(R.id.LinearfechaUnica)
+
+        // Establecer el listener para el Spinner
+        spinnerFrecuenciaTiempo.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selectedItem = parent.getItemAtPosition(position).toString()
+
+                when (selectedItem) {
+                    "Seleccionar..." -> {
+                        linearEntreFechas.visibility = View.GONE
+                        linearFechaUnica.visibility = View.GONE
+                    }
+                    "Diario" -> {
+                        linearEntreFechas.visibility = View.GONE
+                        linearFechaUnica.visibility = View.VISIBLE
+                    }
+                    "Entre Fechas" -> {
+                        linearEntreFechas.visibility = View.VISIBLE
+                        linearFechaUnica.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No hacer nada
+            }
+        }
+
+        val calendario = Calendar.getInstance()
+        val fecha = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            calendario.set(Calendar.YEAR, year)
+            calendario.set(Calendar.MONTH, month)
+            calendario.set(Calendar.DAY_OF_MONTH, day)
+
+            actualizarFecha(calendario)
+        }
+
+        binding.fechaPickBtn.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                requireActivity(),
+                fecha,
+                calendario.get(Calendar.YEAR),
+                calendario.get(Calendar.MONTH),
+                calendario.get(Calendar.DAY_OF_MONTH)
+            )
+            //datePickerDialog.datePicker.minDate = calendario.timeInMillis
+            datePickerDialog.datePicker.maxDate = calendario.timeInMillis
+            datePickerDialog.show()
+        }
+
+        val calendarioInicio = Calendar.getInstance()
+        val fechaInicio2 = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            calendarioInicio.set(Calendar.YEAR, year)
+            calendarioInicio.set(Calendar.MONTH, month)
+            calendarioInicio.set(Calendar.DAY_OF_MONTH, day)
+
+            actualizarFechaInicio(calendarioInicio)
+        }
+
+        binding.fechaPickBtnInicio.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                requireActivity(),
+                fechaInicio2,
+                calendarioInicio.get(Calendar.YEAR),
+                calendarioInicio.get(Calendar.MONTH),
+                calendarioInicio.get(Calendar.DAY_OF_MONTH)
+            )
+            //datePickerDialog.datePicker.minDate = calendarioInicio.timeInMillis
+            datePickerDialog.datePicker.maxDate = calendario.timeInMillis
+            datePickerDialog.show()
+        }
+
+        val calendarioFin = Calendar.getInstance()
+        val fechaFin2 = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            calendarioFin.set(Calendar.YEAR, year)
+            calendarioFin.set(Calendar.MONTH, month)
+            calendarioFin.set(Calendar.DAY_OF_MONTH, day)
+
+            actualizarFechaFin(calendarioFin)
+        }
+
+        binding.fechaPickBtnFin.setOnClickListener {
+            val datePickerDialog = DatePickerDialog(
+                requireActivity(),
+                fechaFin2,
+                calendarioFin.get(Calendar.YEAR),
+                calendarioFin.get(Calendar.MONTH),
+                calendarioFin.get(Calendar.DAY_OF_MONTH)
+            )
+            datePickerDialog.datePicker.minDate = calendarioInicio.timeInMillis
+            datePickerDialog.datePicker.maxDate = calendario.timeInMillis
+            datePickerDialog.show()
+        }
+
+        // Inicializa las vistas
+        editTextDateInicio = view.findViewById(R.id.editTextDateInicio)
+        editTextDateFin = view.findViewById(R.id.editTextDateFin)
+        editTextDateUnico = view.findViewById(R.id.editTextDateUnico)
+
+        // Vincular el botón de descarga de PDF
+        val descargarBtn = view.findViewById<Button>(R.id.Descargar_btn)
+
+        descargarBtn.setOnClickListener {
+            // Ejecutar las validaciones
+            if (!validaciones()) return@setOnClickListener  // Salir si hay errores de validación
+
+            // Asumiendo que frecuenciaSeleccionada es una variable que contiene el valor correspondiente
+            if (frecuenciaSeleccionada == "Diario") {
+                Idpaciente?.let { it1 ->
+                    obtenerDatosReporte(this, fechaUnica, it1,
+                        onSuccess = { reporte ->
+                            this.datosReporte = reporte
+
+                            // Aquí puedes manejar los datos obtenidos
+                            println("Nombre Completo: ${reporte.datosReporte[0].nombreCompleto}")
+                            println("Nombre Mes: ${reporte.datosReporte[0].NombreMes}")
+
+                            // Procesar los tratamientos
+                            for (tratamiento in reporte.tratamiento) {
+                                println("Tratamiento: ${tratamiento.nombrePastilla}, Dosis: ${tratamiento.totalDosis}, Tipo: ${tratamiento.tipo}")
+                            }
+
+                            // Procesar las tomas diarias
+                            for (toma in reporte.tomasDiarias) {
+                                val fechaFormateada = formatearFecha(toma.fecha_toma)
+                                println("Fecha Toma: $fechaFormateada, Nombre: ${toma.nombre}, Toma: ${toma.toma}")
+                            }
+
+                            abrirSelectorDeArchivos(reporte)
+                        },
+                        onError = { errorMessage ->
+                            // Manejar el error
+                            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                }
+            } else if (frecuenciaSeleccionada == "Entre Fechas") {
+                // Suponiendo que tienes las variables fechaInicio, fechaFin y otros necesarios
+                Idpaciente?.let { it1 ->
+                    obtenerDatosReporteEntreFechas(this, fechaInicio, fechaFin, it1,
+                        onSuccess = { reporte ->
+                            this.datosReporte = reporte
+
+                            // Aquí puedes manejar los datos obtenidos
+                            // Por ejemplo, procesar datosReporte y tratamientos como antes
+                            for (reporteItem in reporte.datosReporte) {
+                                println("Nombre Completo: ${reporteItem.nombreCompleto}")
+                                println("Nombre Mes: ${reporteItem.NombreMes}")
+                            }
+
+                            // Procesar los tratamientos
+                            for (tratamiento in reporte.tratamiento) {
+                                println("Tratamiento: ${tratamiento.nombrePastilla}, Dosis: ${tratamiento.totalDosis}, Tipo: ${tratamiento.tipo}")
+                            }
+
+                            // Procesar las tomas diarias
+                            for (toma in reporte.tomasDiarias) {
+                                val fechaFormateada = formatearFecha(toma.fecha_toma)
+                                println("Fecha Toma: $fechaFormateada, Nombre: ${toma.nombre}, Toma: ${toma.toma}")
+                            }
+
+                            abrirSelectorDeArchivos(reporte)
+                        }
+                    ) { errorMessage ->
+                        // Manejar el error
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+        }
+
+        return view
+    }
+    fun formatearFecha(fechaStr: String): String {
+        val formatoEntrada = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        val formatoSalida = SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault())
+
+        return try {
+            val fecha: Date = formatoEntrada.parse(fechaStr) ?: return ""
+            formatoSalida.format(fecha)
+        } catch (e: Exception) {
+            // Manejo de errores
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    private fun validaciones(): Boolean {
+        // Obtén las fechas y el DNI
+        fechaInicio = editTextDateInicio.text.toString()
+        fechaFin = editTextDateFin.text.toString()
+        fechaUnica = editTextDateUnico.text.toString()
+
+        val spinnerFrecuenciaTiempo: Spinner = binding.FrecuenciaReporteDrop // Asegúrate de tener acceso al spinner
+        frecuenciaSeleccionada = spinnerFrecuenciaTiempo.selectedItem.toString()
+
+        // Validaciones
+        when {
+            frecuenciaSeleccionada == "Seleccionar..." -> {
+                Toast.makeText(requireContext(), "Necesita seleccionar un tiempo", Toast.LENGTH_SHORT).show()
+                return false // Salimos de la función si no se seleccionó
+            }
+            frecuenciaSeleccionada == "Diario" && fechaUnica.isEmpty() -> {
+                Toast.makeText(requireContext(), "Para frecuencia diaria, la fecha única no puede estar vacía", Toast.LENGTH_SHORT).show()
+                return false
+            }
+            frecuenciaSeleccionada == "Entre Fechas" && (fechaInicio.isEmpty() || fechaFin.isEmpty()) -> {
+                Toast.makeText(requireContext(), "Para frecuencia entre fechas, ambas fechas deben ser seleccionadas", Toast.LENGTH_SHORT).show()
+                return false
+            }
+        }
+        return true // Todas las validaciones fueron exitosas
+    }
+    private fun abrirSelectorDeArchivos(datosReporte: DatosReporteResponse) {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "application/pdf"
+            putExtra(Intent.EXTRA_TITLE, "Reporte de Progreso.pdf")
+        }
+        startActivityForResult(intent, REQUEST_CODE_CREATE_DOCUMENT)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_CREATE_DOCUMENT && resultCode == AppCompatActivity.RESULT_OK) {
+            data?.data?.let { uri ->
+                generarPdf(
+                    uri,
+                    "Reporte de Progreso",
+                    "Este documento contiene el seguimiento del tratamiento médico.",
+                    datosReporte
+                )
+            }
+        }
+    }
+
+    fun obtenerDatosReporte(
+        context: Fragment,
+        fechaUnica: String,
+        pacienteId: Int, // Cambiado de doctorId y pacienteDni a pacienteId
+        onSuccess: (DatosReporteResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val url = "https://pillpop-backend.onrender.com/reportefechaunicaPaciente"
+
+        // Convertir fechaUnica a formato yyyy-MM-dd
+        val formatoEntrada = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formatoSalida = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val fechaConvertida: String
+        try {
+            val fecha = formatoEntrada.parse(fechaUnica)
+            fechaConvertida = formatoSalida.format(fecha)
+        } catch (e: Exception) {
+            onError("Error al formatear la fecha: ${e.message}")
+            return
+        }
+
+        // Crear el objeto JSON con los parámetros que se enviarán
+        val jsonObject = JSONObject().apply {
+            put("fechaUnica", fechaConvertida)
+            put("pacienteId", pacienteId) // Se cambió el parámetro a pacienteId
+        }
+
+        // Crear la cola de solicitudes
+        val queue: RequestQueue = Volley.newRequestQueue(context.requireContext())
+
+        // Crear solicitud JSON a la API
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.POST, url, jsonObject,
+            { response ->
+                try {
+                    // Convertir la respuesta en el modelo de datos
+                    val datosReporte = Gson().fromJson(response.toString(), DatosReporteResponse::class.java)
+                    onSuccess(datosReporte)
+                } catch (e: Exception) {
+                    onError("Error al procesar la respuesta: ${e.message}")
+                }
+            },
+            { error ->
+                onError("Error en la solicitud: ${error.message}")
+            }
+        ) {
+            // Sobreescribir el método getHeaders para establecer encabezados
+            override fun getHeaders(): Map<String, String> {
+                return mapOf("Content-Type" to "application/json")
+            }
+        }
+
+        // Añadir la solicitud a la cola
+        queue.add(jsonObjectRequest)
+    }
+
+
+    fun obtenerDatosReporteEntreFechas(
+        context: Fragment,
+        fechaInicio: String,
+        fechaFin: String,
+        pacienteId: Int,
+        onSuccess: (DatosReporteResponse) -> Unit,
+        onError: (String) -> Unit
+    ) {
+        val url = "https://pillpop-backend.onrender.com/reporteentrefechasPaciente"
+
+        // Convertir las fechas a formato yyyy-MM-dd
+        val formatoEntrada = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val formatoSalida = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+
+        val fechaInicioConvertida: String
+        val fechaFinConvertida: String
+
+        try {
+            val fechaInicioParsed = formatoEntrada.parse(fechaInicio)
+            val fechaFinParsed = formatoEntrada.parse(fechaFin)
+
+            fechaInicioConvertida = formatoSalida.format(fechaInicioParsed)
+            fechaFinConvertida = formatoSalida.format(fechaFinParsed)
+        } catch (e: Exception) {
+            onError("Error al formatear las fechas: ${e.message}")
+            return
+        }
+
+        // Crear el objeto JSON con los parámetros que se enviarán
+        val jsonObject = JSONObject().apply {
+            put("fechaInicio", fechaInicioConvertida)
+            put("fechaFin", fechaFinConvertida)
+            put("pacienteId", pacienteId)
+        }
+
+        // Crear la cola de solicitudes
+        val queue: RequestQueue = Volley.newRequestQueue(context.requireContext())
+
+        // Crear solicitud JSON a la API
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.POST, url, jsonObject,
+            { response ->
+                try {
+                    // Aquí cambiamos para manejar JSONObject en vez de JSONArray
+                    val datosReporte = response.optJSONObject("datosReporte")
+                    val listaReportes = mutableListOf<Reporte>()
+
+                    // Si datosReporte es un JSONObject, lo procesamos
+                    if (datosReporte != null) {
+                        val nombreMes = "${datosReporte.getString("NombreMesInicio")} - ${datosReporte.getString("NombreMesFin")}"
+                        val reporte = Reporte(
+                            nombreCompleto = datosReporte.getString("nombreCompleto"),
+                            NombreMes = nombreMes,
+                            fecha = "" // Puedes ajustar esto según sea necesario
+                        )
+                        listaReportes.add(reporte)
+                    }
+
+                    // Procesar tratamiento
+                    val tratamientoList = response.getJSONArray("tratamiento")
+                    val tratamiento = mutableListOf<Tratamiento>()
+
+                    for (i in 0 until tratamientoList.length()) {
+                        val item = tratamientoList.getJSONObject(i)
+                        val tratamientoItem = Tratamiento(
+                            id = item.getInt("id"),
+                            nombrePastilla = item.getString("nombrePastilla"),
+                            totalDosis = item.getString("totalDosis"),
+                            tipo = item.getString("tipo"),
+                            nombreDoctor = item.getString("nombreDoctor")
+                        )
+                        tratamiento.add(tratamientoItem)
+                    }
+
+                    // Procesar tomasDiarias
+                    val tomasDiariasList = response.getJSONArray("tomasDiarias")
+                    val tomasDiarias = mutableListOf<TomaDiaria>()
+
+                    for (i in 0 until tomasDiariasList.length()) {
+                        val item = tomasDiariasList.getJSONObject(i)
+                        val tomaDiaria = TomaDiaria(
+                            fecha_toma = item.getString("fecha_toma"),
+                            fecha_tomada = item.getString("fecha_tomada"),
+                            toma = item.getInt("toma"),
+                            id = item.getInt("id"),
+                            nombre = item.getString("nombre")
+                        )
+                        tomasDiarias.add(tomaDiaria)
+                    }
+
+                    // Crear el objeto DatosReporteResponse
+                    val datosReporteResponse = DatosReporteResponse(
+                        datosReporte = listaReportes, // Pasamos la lista de reportes
+                        tratamiento = tratamiento,
+                        tomasDiarias = tomasDiarias
+                    )
+
+                    onSuccess(datosReporteResponse)
+                } catch (e: Exception) {
+                    onError("Error al procesar la respuesta")
+                }
+            },
+            { error ->
+                onError("Error en la solicitud")
+            }
+        ) {
+            // Sobreescribir el método getHeaders para establecer encabezados
+            override fun getHeaders(): Map<String, String> {
+                return mapOf("Content-Type" to "application/json")
+            }
+        }
+
+        // Añadir la solicitud a la cola
+        queue.add(jsonObjectRequest)
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun convertirFechaCorrida(fecha: String): String {
+        // Definir el formato de entrada
+        val inputFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+        // Parsear la fecha de entrada
+        val date = LocalDate.parse(fecha, inputFormatter)
+
+        // Definir el formato de salida
+        val outputFormatter = DateTimeFormatter.ofPattern("d 'de' MMMM 'de' yyyy", Locale("es", "ES"))
+
+        // Formatear la fecha a la salida deseada
+        return date.format(outputFormatter)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun generarPdf(uri: Uri, tituloText: String, descripcionText: String, datosReporte: DatosReporteResponse) {
+        val pdfDocument = PdfDocument()
+        val paint = Paint()
+        val titulo = TextPaint()
+        val subtitulo = TextPaint()
+        val descripcion = TextPaint()
+        val tablePaint = Paint()
+        val tableTextPaint = TextPaint()
+
+        var paginaNumber = 1
+        var paginaInfo: PdfDocument.PageInfo
+        lateinit var pagina: PdfDocument.Page
+        lateinit var canvas: Canvas
+
+        fun startNewPage() {
+            paginaInfo = PdfDocument.PageInfo.Builder(816, 1054, paginaNumber).create()
+            pagina = pdfDocument.startPage(paginaInfo)
+            canvas = pagina.canvas
+            canvas.drawColor(Color.WHITE) // Fondo blanco
+            paginaNumber++
+        }
+
+        startNewPage() // Inicializa la primera página
+
+        // Título
+        titulo.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
+        titulo.textSize = 24f
+        paint.color = Color.BLACK
+        canvas.drawText(tituloText, 10f, 50f, titulo)
+
+        // Línea debajo del título
+        paint.strokeWidth = 3f
+        canvas.drawLine(10f, 70f, 806f, 70f, paint)
+
+        // Descripción
+        descripcion.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL))
+        descripcion.textSize = 16f
+        descripcion.color = Color.BLACK
+
+        val arrDescripcion = descripcionText.split("\n")
+
+        var y = 100f
+        for (item in arrDescripcion) {
+            // Verifica si se necesita una nueva página
+            if (y > 1054 - 20) { // Si se pasa de la altura de la página menos un margen
+                pdfDocument.finishPage(pagina) // Termina la página actual
+                startNewPage() // Crea una nueva página
+                y = 100f // Reinicia la posición vertical
+            }
+            canvas.drawText(item, 10f, y, descripcion)
+            y += 20
+        }
+
+        // Espacio entre la descripción y la tabla
+        y += 20f
+
+
+        // Títulos y texto normal
+        val infoBoldPaint = TextPaint().apply {
+            typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            textSize = 16f
+            color = Color.BLACK
+        }
+
+        val infoNormalPaint = TextPaint().apply {
+            typeface = Typeface.defaultFromStyle(Typeface.NORMAL)
+            textSize = 16f
+            color = Color.BLACK
+        }
+
+        // Título
+        subtitulo.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD))
+        subtitulo.textSize = 20f
+
+        // Obtén la fecha actual
+        val fechaHoy = LocalDate.now()
+
+        // Formato de fecha deseado
+        val formatter = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy")
+        val fechaFormateada = fechaHoy.format(formatter)
+
+        canvas.drawText("Datos de Reporte:", 10f, y, subtitulo)
+        y += 40f
+
+        canvas.drawText("Mes:", 10f, y, infoBoldPaint)
+        canvas.drawText("${datosReporte.datosReporte[0].NombreMes}", 100f, y, infoNormalPaint) // Añadiendo el valor en normal
+        y += 20f
+        canvas.drawText("Paciente:", 10f, y, infoBoldPaint)
+        canvas.drawText("${datosReporte.datosReporte[0].nombreCompleto}", 100f, y, infoNormalPaint) // Añadiendo el valor en normal
+        y += 20f
+        canvas.drawText("Fecha:", 10f, y, infoBoldPaint)
+        canvas.drawText(fechaFormateada, 100f, y, infoNormalPaint) // Añadiendo el valor en normal
+
+        // Espacio entre la información y la tabla
+        y += 40f
+
+        // Tabla de Tratamiento
+        canvas.drawText("Tratamiento:", 10f, y, subtitulo)
+        y += 20f
+
+        // Inicia la tabla
+        tablePaint.color = Color.LTGRAY
+        canvas.drawRect(10f, y, 806f, y + 20f, tablePaint)
+
+        // Títulos de la tabla
+        canvas.drawText("Tratamiento", 20f, y + 15f, tableTextPaint)
+        canvas.drawText("Dosis", 200f, y + 15f, tableTextPaint)
+        canvas.drawText("Frecuencia", 300f, y + 15f, tableTextPaint)
+        canvas.drawText("Doctor", 480f, y + 15f, tableTextPaint)
+
+        y += 40f
+        for (tratamiento in datosReporte.tratamiento) {
+            if (y > 1054 - 20) {
+                pdfDocument.finishPage(pagina)
+                startNewPage()
+                y = 100f
+            }
+            drawMultilineText(canvas, tratamiento.nombrePastilla, 20f, y, tableTextPaint, 180f)
+            drawMultilineText(canvas, tratamiento.totalDosis, 200f, y, tableTextPaint, 80f)
+            drawMultilineText(canvas, tratamiento.tipo, 300f, y, tableTextPaint, 140f)
+            drawMultilineText(canvas, tratamiento.nombreDoctor, 480f, y, tableTextPaint, 140f)
+            y += 50f
+        }
+
+        // Espacio antes del Registro Diario
+        y += 30f
+
+        // Registro Diario
+        canvas.drawText("Registro Diario:", 10f, y, subtitulo)
+        y += 20f
+
+        val registros2 = datosReporte.tomasDiarias
+
+// Crear tabla de registro diario
+// Extraer nombres de pastillas únicos
+        val nombresPastillas = registros2.map { it.nombre }.distinct()
+
+// Crear registroTitulos dinámicamente
+        val registroTitulos = arrayOf("Fecha Indicada","Fecha Tomada") + nombresPastillas.toTypedArray()
+
+// Imprimir el resultado
+        println(registroTitulos.joinToString(", "))
+
+// Crear cuerpo de la tabla
+        val cuerpoTabla = mutableListOf<Array<String>>()
+
+/// Formato de entrada
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault()).apply {
+            timeZone = TimeZone.getTimeZone("UTC") // Establece la zona horaria adecuada
+        }
+
+// Formato de salida
+        val outputFormat = SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault()).apply {
+            timeZone = TimeZone.getDefault() // Establece la zona horaria local
+        }
+
+// Agrupar tomas por fecha
+        val tomasAgrupadasPorFecha = registros2.groupBy { it.fecha_toma }
+
+        for ((fecha, tomas) in tomasAgrupadasPorFecha) {
+            // Inicializar una fila para la fecha actual
+            val fila = Array(nombresPastillas.size + 2) { "" }
+            // Parsear la fecha y formatearla
+            val parsedDate: Date? = inputFormat.parse(fecha)
+
+            // Asegúrate de que la fecha se haya parseado correctamente
+            if (fecha != null) {
+                fila[0] = formatFecha(fecha) // Asignar fecha formateada a la primera columna
+            } else {
+                fila[0] = "" // Manejo de error si la fecha no se parsea
+            }
+
+
+            // Llenar las columnas de pastillas
+            for (toma in tomas) {
+
+                if(toma.fecha_tomada==null){
+                    val fechaFormateada=""
+                    fila[1]=fechaFormateada
+                }else{
+                    val fechaFormateada = formatFecha(toma.fecha_tomada)
+                    fila[1]=fechaFormateada
+                }
+
+                val indice = nombresPastillas.indexOf(toma.nombre) + 2 // +1 para ignorar la columna de fecha
+                if (indice > 0) {
+                    fila[indice] = if (toma.toma == 1) "Si" else "No"
+                }
+            }
+
+            cuerpoTabla.add(fila)
+        }
+
+// Dibujar títulos de la tabla
+        tablePaint.color = Color.LTGRAY
+        canvas.drawRect(10f, y, 806f, y + 20f, tablePaint)
+
+        for (i in registroTitulos.indices) {
+            canvas.drawText(registroTitulos[i], 20f + i * 150f, y + 15f, tableTextPaint)
+        }
+
+// Espacio para los registros
+        y += 30f
+
+        for (registro in cuerpoTabla) {
+            for (i in registro.indices) {
+                if (y > 1054 - 20) {
+                    pdfDocument.finishPage(pagina)
+                    startNewPage()
+                    y = 100f
+                }
+                canvas.drawText(registro[i], 20f + i * 150f, y + 20f, tableTextPaint)
+            }
+            y += 30f
+        }
+
+        pdfDocument.finishPage(pagina)
+
+
+        // Guardar el PDF en el URI proporcionado
+        try {
+            val outputStream: OutputStream? = requireContext().contentResolver.openOutputStream(uri)
+            outputStream?.use {
+                pdfDocument.writeTo(it)
+                Toast.makeText(requireContext(), "Se creó el PDF correctamente", Toast.LENGTH_LONG)
+                    .show()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(requireContext(), "Error al crear el PDF", Toast.LENGTH_LONG).show()
+        }
+
+        pdfDocument.close()
+    }
+
+    fun formatFecha(fechaOriginal: String): String {
+        // Define el formato de entrada (ISO 8601) en UTC
+        val formatoEntrada = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+        formatoEntrada.timeZone = TimeZone.getTimeZone("UTC")
+
+        // Define el formato de salida en 12 horas con AM/PM en UTC, sin los segundos
+        val formatoSalida = SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.getDefault())
+        formatoSalida.timeZone = TimeZone.getTimeZone("UTC")
+
+        // Convierte la fecha de entrada en objeto Date y luego al formato deseado
+        val fecha = formatoEntrada.parse(fechaOriginal)
+        val fechaFormateada = formatoSalida.format(fecha!!)
+
+        // Cambia AM/PM a formato en minúsculas con puntos
+        return fechaFormateada.replace("AM", "a.m.").replace("PM", "p.m.")
+    }
+
+    fun drawMultilineText(canvas: Canvas, text: String, x: Float, y: Float, paint: TextPaint, maxWidth: Float) {
+        val words = text.split(" ")
+        var line = ""
+        var lineHeight = paint.descent() - paint.ascent()
+        var cellY = y
+
+        for (word in words) {
+            val testLine = "$line $word".trim()
+            val testWidth = paint.measureText(testLine)
+
+            if (testWidth > maxWidth) {
+                canvas.drawText(line, x, cellY, paint)
+                line = word // Iniciar nueva línea con la palabra actual
+                cellY += lineHeight // Aumentar la altura para la próxima línea
+            } else {
+                line = testLine
+            }
+        }
+        canvas.drawText(line, x, cellY, paint) // Dibuja la última línea
+    }
+
+
+    // Funciones para actualizar campos de fecha
+    private fun actualizarFecha(calendar: Calendar) {
+        val formatoFecha = "dd/MM/yyyy"
+        val formatoSimple = SimpleDateFormat(formatoFecha, Locale("es", "ES"))
+        binding.editTextDateUnico.setText(formatoSimple.format(calendar.time))
+    }
+
+    private fun actualizarFechaInicio(calendar: Calendar) {
+        val formatoFecha = "dd/MM/yyyy"
+        val formatoSimple = SimpleDateFormat(formatoFecha, Locale("es", "ES"))
+        binding.editTextDateInicio.setText(formatoSimple.format(calendar.time))
+    }
+
+    private fun actualizarFechaFin(calendar: Calendar) {
+        val formatoFecha = "dd/MM/yyyy"
+        val formatoSimple = SimpleDateFormat(formatoFecha, Locale("es", "ES"))
+        binding.editTextDateFin.setText(formatoSimple.format(calendar.time))
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ProgresoFragment.
-         */
-        // TODO: Rename and change types and number of parameters
+        private const val REQUEST_CODE_CREATE_DOCUMENT = 1
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ProgresoFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    // Aquí puedes agregar los parámetros si es necesario
                 }
             }
     }

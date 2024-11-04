@@ -5,29 +5,34 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 class TomaIndicacionView : AppCompatActivity() {
-    private var perfilId: Int = 0
-    private var registro_id: Int = 0
+    private var idMedicamento: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_toma_indicacion_view)
 
-        // Obtener registro_id del Intent
-        registro_id = intent.getIntExtra("registro_id", 0)
-        perfilId = intent.getIntExtra("perfil_id", 0)
+        val button = findViewById<Button>(R.id.IrVerificacionBtn)
 
-        val btn: Button = findViewById(R.id.IrVerificacionBtn)
-        btn.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("registro_id", registro_id)
-            intent.putExtra("perfil_id", perfilId)
-            startActivity(intent)
+        // Obtener el ID del medicamento de los extras
+        idMedicamento = intent.getIntExtra("ID_MEDICAMENTO", -1) // -1 es un valor por defecto
+
+        if (idMedicamento != -1) {
+            // Aquí puedes usar el idMedicamento según sea necesario
+           // Toast.makeText(this, "ID del medicamento: $idMedicamento", Toast.LENGTH_SHORT).show()
         }
 
+        button.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java).apply {
+                putExtra("ID_MEDICAMENTO", idMedicamento) // Pasa el ID del medicamento
+            }
+            startActivity(intent) // Inicia MainActivity
 
+        }
     }
 }

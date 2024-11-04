@@ -21,7 +21,7 @@ class InicioView: AppCompatActivity() {
         // Configurar el clic para el Button "Iniciar"
         val btn: Button = findViewById(R.id.buttonInicio)
         btn.setOnClickListener {
-            val intent = Intent(this, Perfil_View::class.java)
+                val intent = Intent(this, RegisterView::class.java)
             startActivity(intent)
         }
     }

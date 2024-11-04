@@ -5,10 +5,10 @@
         android:id="@+id/inicio"
         android:icon="@drawable/baseline_home_24"
         android:iconTint="#24D2DF"/>
-    <item android:title="Tratamiento"
-        android:id="@+id/tratamiento"
-        android:icon="@drawable/tratamiento"/>
     <item android:title="Progreso"
         android:id="@+id/progreso"
         android:icon="@drawable/progreso"/>
+    <item android:title="Perfil"
+        android:id="@+id/perfil"
+        android:icon="@drawable/baseline_person_24"/>
 </menu>

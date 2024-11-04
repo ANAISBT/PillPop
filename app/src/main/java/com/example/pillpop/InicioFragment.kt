@@ -1,114 +1,152 @@
 package com.example.pillpop
 
-import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.lang.reflect.Type
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
+import org.json.JSONArray
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [InicioFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class InicioFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private lateinit var listMedicamentosHoy: RecyclerView
     private lateinit var adapter: MedicamentoAdapter
-    private var param1: String? = null
-    private var param2: String? = null
-    private var perfilId: Int = 0
+    private lateinit var progressDialog: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-            perfilId = it.getInt("perfil_id")
-        }
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Initialize the RecyclerView
+        // Inicializar el RecyclerView
         val view = inflater.inflate(R.layout.fragment_inicio, container, false)
 
-        // Initialize the RecyclerView
         listMedicamentosHoy = view.findViewById(R.id.ListMedicamentosHoy)
         listMedicamentosHoy.layoutManager = LinearLayoutManager(context)
+
+        // Inicializar el ProgressDialog
+        progressDialog = ProgressDialog(requireContext())
+        progressDialog.setMessage("Cargando datos...")
+        progressDialog.setCancelable(false)
 
         // Obtener el TextView
         val textView4 = view.findViewById<TextView>(R.id.textView4)
 
         // Obtener la fecha actual
         val currentDate = Calendar.getInstance().time
-        val sdf = SimpleDateFormat("EEEE dd 'de' MMMM 'del' yyyy", Locale("es", "ES"))
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val formattedDate = sdf.format(currentDate)
 
-        // Establecer el texto del TextView
-        textView4.text = formattedDate
+        // Llamar al servicio para obtener medicamentos
+        val id = Idpaciente
+        if (id != null) {
+            obtenerMedicamentos(id, formattedDate)
+        }
 
-        fetchMedicamentos()
+        // Establecer el texto del TextView
+        val sdfDisplay = SimpleDateFormat("EEEE dd 'de' MMMM 'del' yyyy", Locale("es", "ES"))
+        textView4.text = sdfDisplay.format(currentDate)
 
         return view
     }
 
-    private fun fetchMedicamentos() {
-        // Create a new thread or use a coroutine for network operations
-        Thread {
-            val client = OkHttpClient()
-            val request = Request.Builder()
-                .url("https://pillpop.000webhostapp.com/pillpop/prescripcionesPorFecha.php?paciente_id=$perfilId")
-                .build()
-            val response: Response = client.newCall(request).execute()
-            val jsonData = response.body?.string()
+    private fun obtenerMedicamentos(pacienteId: Int, fechaHoy: String) {
+        progressDialog.setMessage("Cargando tomas para el día de hoy...")
+        progressDialog.show()
+        // Crear la cola de solicitudes de Volley
+        val requestQueue = Volley.newRequestQueue(requireContext())
 
-            jsonData?.let {
-                val gson = Gson()
-                val listType: Type = object : TypeToken<List<Medicamento>>() {}.type
-                val medicamentos: List<Medicamento> = gson.fromJson(it, listType)
+        // URL del endpoint
+        val url = "https://pillpop-backend.onrender.com/obtenerTomasXPacienteFecha" // Reemplaza con la URL real de tu API
 
-                activity?.runOnUiThread {
-                    adapter = MedicamentoAdapter(medicamentos)
-                    listMedicamentosHoy.adapter = adapter
+        // Crear el objeto JSON que se enviará
+        val jsonBody = JSONObject().apply {
+            put("pacienteId", pacienteId)
+            put("fechaHoy", fechaHoy)
+        }
 
-                    // Set the click listener for items in the adapter
-                    adapter.setOnItemClickListener { position ->
-                        val selectedMedicamento = medicamentos[position]
-                        val registroId = selectedMedicamento.registro_id
+        // Crear la solicitud JSON
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.POST,
+            url,
+            jsonBody,
+            { response ->
+                // Verificar si la respuesta contiene la lista de medicamentos
+                if (response.has("medicamentos")) {
+                    val medicamentosList = mutableListOf<Medicamento>()
+                    val jsonArray: JSONArray = response.getJSONArray("medicamentos")
 
-                        // Inicia la nueva actividad
-                        val intent = Intent(requireContext(), TomaIndicacionView::class.java)
-                        intent.putExtra("registro_id", registroId)
-                        intent.putExtra("perfil_id", perfilId)
-                        startActivity(intent)
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject: JSONObject = jsonArray.getJSONObject(i)
+                        var horaToma = jsonObject.getString("hora_minutos")
+                        horaToma = convertirHoraFormato12Horas(horaToma) // Convierte la hora a formato 12 horas
+                        val medicamento = Medicamento(
+                            jsonObject.getInt("id"),
+                            jsonObject.getString("nombre"),
+                            jsonObject.getInt("dosis"),
+                            pacienteId,
+                            fechaHoy,
+                            horaToma,
+                            jsonObject.getInt("toma")
+                        )
+                        medicamentosList.add(medicamento)
                     }
+
+                    // Actualizar el adaptador con los datos obtenidos
+                    adapter = MedicamentoAdapter(medicamentosList)
+                    adapter.setOnItemClickListener { medicamentoId ->
+                        // Manejar el clic en el medicamento
+                        val intent = Intent(requireContext(), TomaIndicacionView::class.java).apply {
+                            putExtra("ID_MEDICAMENTO", medicamentoId) // Pasa el ID del medicamento
+                        }
+                        startActivity(intent) // Inicia la actividad de indicaciones
+                    }
+                    listMedicamentosHoy.adapter = adapter
+                    progressDialog.dismiss()
+                } else if (response.has("mensaje")) {
+                    // Si no se encontraron medicamentos, muestra el mensaje
+                    val mensaje = response.getString("mensaje")
+                    progressDialog.dismiss()
+                    //Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
                 }
+            },
+            { error ->
+                // Manejar errores
+                Toast.makeText(context, "Error al obtener las tomas del día de hoy. Cargue nuevamente la vista", Toast.LENGTH_SHORT).show()
+                progressDialog.dismiss()
             }
-        }.start()
+        )
+
+        // Agregar la solicitud a la cola
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun convertirHoraFormato12Horas(hora24: String): String {
+        // Define los formatos para 24 horas y 12 horas
+        val formato24Horas = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val formato12Horas = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+        // Convierte la cadena de 24 horas al formato de fecha/hora
+        val date = formato24Horas.parse(hora24)
+
+        // Retorna la hora en formato de 12 horas
+        return formato12Horas.format(date!!)
     }
 
     companion object {
@@ -116,8 +154,6 @@ class InicioFragment : Fragment() {
         fun newInstance(param1: String, param2: String) =
             InicioFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }
