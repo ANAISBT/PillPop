@@ -253,23 +253,42 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/EmailAddressInput" />
 
-                <EditText
-                    android:id="@+id/editTextTextPassword"
-                    style="@style/Inputs"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#1FB5C0"
-                    android:ems="10"
-                    android:inputType="textPassword"
-                    android:text=""
-                    android:maxLength="100"
-                    android:textSize="16sp"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.493"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ContraseñaText" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/editTextTextPassword"
+                        style="@style/Inputs"
+                        android:layout_width="308dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="4dp"
+                        android:backgroundTint="#1FB5C0"
+                        android:ems="10"
+                        android:inputType="textPassword"
+                        android:maxLength="100"
+                        android:text=""
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.493"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ContraseñaText" />
+
+                    <ImageView
+                        android:id="@+id/PasswordToggleIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="10dp"
+                        android:contentDescription="Toggle Password Visibility"
+                        android:src="@drawable/baseline_visibility_off_24"
+                        app:layout_constraintBottom_toBottomOf="@id/editTextTextPassword"
+                        app:layout_constraintEnd_toEndOf="@id/editTextTextPassword"
+                        app:layout_constraintTop_toTopOf="@id/editTextTextPassword" />
+                </LinearLayout>
 
 
                 <TextView

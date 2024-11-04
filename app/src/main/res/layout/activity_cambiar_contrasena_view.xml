@@ -93,18 +93,37 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/DNIEditInput" />
 
-            <EditText
-                android:id="@+id/ContrasenaEditInput"
-                style="@style/Inputs"
-                android:layout_width="335dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#1FB5C0"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.526"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DNIEditText" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/ContrasenaEditInput"
+                    style="@style/Inputs"
+                    android:layout_width="310dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="#1FB5C0"
+                    android:text=""
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.526"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/DNIEditText" />
+
+                <ImageView
+                    android:id="@+id/PasswordToggleIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="10dp"
+                    android:contentDescription="Toggle Password Visibility"
+                    android:src="@drawable/baseline_visibility_off_24"
+                    app:layout_constraintBottom_toBottomOf="@id/ContrasenaEditInput"
+                    app:layout_constraintEnd_toEndOf="@id/ContrasenaEditInput"
+                    app:layout_constraintTop_toTopOf="@id/ContrasenaEditInput" />
+            </LinearLayout>
 
         </LinearLayout>
 

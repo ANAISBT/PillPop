@@ -29,6 +29,9 @@ import com.example.pillpop.Constants.MODEL_PATH
 import com.example.pillpop.databinding.ActivityMainBinding
 import org.json.JSONException
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -338,9 +341,14 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
         val url = "https://pillpop-backend.onrender.com/cambiarTomaA1" // Cambia esto por la URL de tu servidor
         val queue = Volley.newRequestQueue(this)
 
+        val currentDateTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).format(
+            Date()
+        )
+
         val requestBody = JSONObject()
         try {
             requestBody.put("tomaID", tomaID)
+            requestBody.put("p_fecha", currentDateTime)
         } catch (e: JSONException) {
             e.printStackTrace()
         }

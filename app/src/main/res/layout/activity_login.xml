@@ -100,30 +100,49 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/DNIInput" />
 
-                <EditText
-                    android:id="@+id/TextPasswordInput"
-                    style="@style/Inputs"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:backgroundTint="#1FB5C0"
-                    android:ems="10"
-                    android:inputType="textPassword"
-                    android:text=""
-                    android:textSize="16sp"
-                    android:maxLength="100"
-                    android:textColor="#FFFFFF"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.48"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ContraseñaTextLogin" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/passwordErrorText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:visibility="gone" />
+                    <EditText
+                        android:id="@+id/TextPasswordInput"
+                        style="@style/Inputs"
+                        android:layout_width="319dp"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="#1FB5C0"
+                        android:ems="10"
+                        android:inputType="textPassword"
+                        android:maxLength="100"
+                        android:text=""
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.48"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ContraseñaTextLogin" />
+
+                    <ImageView
+                        android:id="@+id/PasswordToggleIcon"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="20dp"
+                        android:contentDescription="Toggle Password Visibility"
+                        android:src="@drawable/baseline_visibility_off_24"
+                        app:layout_constraintBottom_toBottomOf="@id/TextPasswordInput"
+                        app:layout_constraintEnd_toEndOf="@id/TextPasswordInput"
+                        app:layout_constraintTop_toTopOf="@id/TextPasswordInput" />
+
+                    <TextView
+                        android:id="@+id/passwordErrorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="gone" />
+                </LinearLayout>
 
             </LinearLayout>
 

@@ -4,12 +4,14 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -33,6 +35,7 @@ class Login : AppCompatActivity() {
     private lateinit var passwordErrorText: TextView
     private lateinit var requestQueue: RequestQueue
     private lateinit var progressDialog: ProgressDialog
+    private lateinit var toggleIcon: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,7 @@ class Login : AppCompatActivity() {
 
         dniErrorText = findViewById(R.id.dniErrorText)
         passwordErrorText = findViewById(R.id.passwordErrorText)
+        toggleIcon = findViewById(R.id.PasswordToggleIcon)
 
         setupTextWatcher(edtDni, dniErrorText)
         setupTextWatcher(edtContrasena, passwordErrorText)
@@ -61,6 +65,19 @@ class Login : AppCompatActivity() {
             if (!hayError){
                 iniciarSesion(dni, contrasena)
             }
+        }
+        toggleIcon.setOnClickListener {
+            if (edtContrasena.inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                // Show Password
+                edtContrasena.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                toggleIcon.setImageResource(R.drawable.baseline_visibility_24) // Use "visible" icon
+            } else {
+                // Hide Password
+                edtContrasena.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                toggleIcon.setImageResource(R.drawable.baseline_visibility_off_24) // Use "hidden" icon
+            }
+            // Move the cursor to the end of the text
+            edtContrasena.setSelection(edtContrasena.length())
         }
 
     }

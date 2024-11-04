@@ -1,12 +1,15 @@
 package com.example.pillpop
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.cardview.widget.CardView
+import java.util.Calendar
 
 class MedicamentoAdapter(private val medicamentos: List<Medicamento>) : RecyclerView.Adapter<MedicamentoAdapter.ViewHolder>() {
 
@@ -27,25 +30,47 @@ class MedicamentoAdapter(private val medicamentos: List<Medicamento>) : Recycler
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val medicamento = medicamentos[position]
         viewHolder.nombrePill.text = medicamento.medicamento_nombre
-        viewHolder.dosisPill.text = "${medicamento.dosis} unidades" // Ajusta según sea necesario
-        viewHolder.horaPill.text = medicamento.hora_toma.split(":").take(2).joinToString(":")
-        viewHolder.pillImage.setImageResource(R.drawable.pill) // Ajusta si tienes imágenes específicas
+        viewHolder.dosisPill.text = "${medicamento.dosis} unidades"
 
-        // Cambia el ícono según el estado de tomado
-        viewHolder.checkImage.setImageResource(
-            if (medicamento.tomado == 0) R.drawable.check_desabilitado
-            else R.drawable.check_habilitado
-        )
+        // Extraer hora y minutos de medicamento.hora_toma y determinar AM/PM
+        val partesHora = medicamento.hora_toma.split(":")
+        val horaString = partesHora[0].trim()
+        val minutoString = partesHora[1].trim().substringBefore(" ")
+        val ampm = partesHora[1].trim().substringAfter(" ")
 
-        // Configura el click listener en el CardView
-        viewHolder.cardView.setOnClickListener {
-            if (medicamento.tomado == 0) {
-                onItemClickListener?.invoke(medicamento.registro_id) // Envía el ID del medicamento
-            }
+        // Convertir a formato de 24 horas
+        val horaTomaInt = horaString.toInt()
+        val minutoTomaInt = minutoString.toInt()
+        val horaToma24Horas = if (ampm.equals("p.m.", ignoreCase = true) && horaTomaInt != 12) {
+            horaTomaInt + 12
+        } else if (ampm.equals("a.m.", ignoreCase = true) && horaTomaInt == 12) {
+            0
+        } else {
+            horaTomaInt
         }
 
-        viewHolder.cardView.isClickable = (medicamento.tomado == 0)
-        viewHolder.cardView.isFocusable = (medicamento.tomado == 0)
+        viewHolder.horaPill.text = medicamento.hora_toma.split(":").take(2).joinToString(":")
+
+        viewHolder.pillImage.setImageResource(R.drawable.pill)
+        viewHolder.checkImage.setImageResource(
+            if (medicamento.tomado == 0) R.drawable.check_desabilitado else R.drawable.check_habilitado
+        )
+
+        // Obtener la hora actual
+        val calendar = Calendar.getInstance()
+        val horaActual = calendar.get(Calendar.HOUR_OF_DAY)
+        val minutoActual = calendar.get(Calendar.MINUTE)
+
+        // Comparar la hora actual con la hora programada en formato de 24 horas
+        val esClickable = medicamento.tomado == 0 && (horaActual > horaToma24Horas || (horaActual == horaToma24Horas && minutoActual >= minutoTomaInt))
+
+        viewHolder.cardView.setOnClickListener {
+            if (esClickable) {
+                onItemClickListener?.invoke(medicamento.registro_id)
+            }
+        }
+        viewHolder.cardView.isClickable = esClickable
+        viewHolder.cardView.isFocusable = esClickable
     }
 
     override fun getItemCount(): Int {

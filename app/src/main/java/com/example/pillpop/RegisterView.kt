@@ -1,9 +1,11 @@
 package com.example.pillpop
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
@@ -22,6 +24,7 @@ import com.android.volley.toolbox.Volley
 import org.json.JSONException
 import org.json.JSONObject
 import android.util.Patterns
+import android.widget.ImageView
 import android.widget.Toast
 
 class RegisterView : AppCompatActivity() {
@@ -42,12 +45,14 @@ class RegisterView : AppCompatActivity() {
     private lateinit var passwordErrorText: TextView
     private lateinit var progressDialog: ProgressDialog
     private lateinit var progressDialog2: ProgressDialog
+    private lateinit var toggleIcon: ImageView
 
     //private var generoId: Int = 1
     //private var tipoPerfilId: Int = 1
     private lateinit var requestQueue: RequestQueue
     //private var correct = false
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -67,6 +72,7 @@ class RegisterView : AppCompatActivity() {
         dniInput = findViewById(R.id.DNIInput)
         emailInput = findViewById(R.id.EmailAddressInput)
         passwordInput = findViewById(R.id.editTextTextPassword)
+        toggleIcon = findViewById(R.id.PasswordToggleIcon)
 
         nombreErrorText = findViewById(R.id.nombreErrorText)
         edadErrorText = findViewById(R.id.edadErrorText)
@@ -107,6 +113,20 @@ class RegisterView : AppCompatActivity() {
                 registrarPaciente(nombre, idGenero, edad, dni, email, password)
             }
 
+        }
+
+        toggleIcon.setOnClickListener {
+            if (passwordInput.inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                // Show Password
+                passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                toggleIcon.setImageResource(R.drawable.baseline_visibility_24) // Use "visible" icon
+            } else {
+                // Hide Password
+                passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                toggleIcon.setImageResource(R.drawable.baseline_visibility_off_24) // Use "hidden" icon
+            }
+            // Move the cursor to the end of the text
+            passwordInput.setSelection(passwordInput.length())
         }
 
     }

@@ -1,10 +1,13 @@
 package com.example.pillpop
 
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.Request
@@ -22,6 +25,8 @@ class CambiarContraseñaView : AppCompatActivity() {
     private lateinit var contrasenaEditInput: EditText
     private lateinit var CancelarButton: Button
     private lateinit var EditarContrasenaButton: Button
+    private lateinit var toggleIcon: ImageView
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cambiar_contrasena_view)
@@ -36,6 +41,7 @@ class CambiarContraseñaView : AppCompatActivity() {
         // Obtener referencias a los elementos de la interfaz
         dniChangeInput = findViewById(R.id.DNIChangeInput)
         contrasenaEditInput = findViewById(R.id.ContrasenaEditInput)
+        toggleIcon = findViewById(R.id.PasswordToggleIcon)
 
         // Llamar a obtenerDatosDoctor para cargar los datos del doctor
         obtenerDatosPaciente()
@@ -56,6 +62,19 @@ class CambiarContraseñaView : AppCompatActivity() {
                 // Cerrar la actividad y regresar a la anterior
                 Idpaciente?.let { it1 -> editarContrasenaPaciente(it1, nuevaContrasena) }
             }
+        }
+        toggleIcon.setOnClickListener {
+            if (contrasenaEditInput.inputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+                // Show Password
+                contrasenaEditInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                toggleIcon.setImageResource(R.drawable.baseline_visibility_24) // Use "visible" icon
+            } else {
+                // Hide Password
+                contrasenaEditInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                toggleIcon.setImageResource(R.drawable.baseline_visibility_off_24) // Use "hidden" icon
+            }
+            // Move the cursor to the end of the text
+            contrasenaEditInput.setSelection(contrasenaEditInput.length())
         }
     }
     private fun editarContrasenaPaciente(id: Int, nuevaContrasena: String) {
