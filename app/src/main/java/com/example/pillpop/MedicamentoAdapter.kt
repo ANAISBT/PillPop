@@ -41,13 +41,27 @@ class MedicamentoAdapter(private val medicamentos: List<Medicamento>) : Recycler
         // Convertir a formato de 24 horas
         val horaTomaInt = horaString.toInt()
         val minutoTomaInt = minutoString.toInt()
-        val horaToma24Horas = if (ampm.equals("p.m.", ignoreCase = true) && horaTomaInt != 12) {
-            horaTomaInt + 12
-        } else if (ampm.equals("a.m.", ignoreCase = true) && horaTomaInt == 12) {
-            0
-        } else {
-            horaTomaInt
+        println("ampm: '${ampm.trim()}'")  // Esto imprimirá la cadena tal cual, incluyendo espacios si los hay.
+        println("horaTomaInt: $horaTomaInt")  // Esto imprimirá el valor de horaTomaInt
+
+        val am = ampm.contains("a", ignoreCase = true)  // true si es AM, false si es PM
+
+        val horaToma24Horas = when {
+            !am && horaTomaInt < 12 -> {
+                horaTomaInt + 12  // Si es PM y menor a 12, sumamos 12
+            }
+            am && horaTomaInt == 12 -> {
+                0  // Si es 12 AM (medianoche), lo convertimos a 0
+            }
+            !am && horaTomaInt == 12 -> {
+                12  // Si es 12 PM (mediodía), lo dejamos como 12
+            }
+            else -> {
+                horaTomaInt  // En todos los demás casos, dejamos la hora tal cual
+            }
         }
+
+
 
         viewHolder.horaPill.text = medicamento.hora_toma.split(":").take(2).joinToString(":")
 

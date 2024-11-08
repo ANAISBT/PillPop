@@ -1,6 +1,7 @@
 package com.example.pillpop
 
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -101,6 +102,11 @@ class Login : AppCompatActivity() {
                     if (mensaje == "Login exitoso") {
                         val pacienteId = response.getInt("id")
                         Idpaciente=pacienteId
+
+                        // Guardar pacienteId en SharedPreferences
+                        val sharedPref = getSharedPreferences("PillPopPreferences", Context.MODE_PRIVATE)
+                        sharedPref.edit().putInt("pacienteId", pacienteId).apply()
+
                         Nombrepaciente = response.getString("nombreCompleto")
                         var idGenero = response.getString("sexo_id").toIntOrNull()
                         if(idGenero == 1){
