@@ -61,18 +61,14 @@
             <EditText
                 android:id="@+id/nombreCompletoEditInput"
                 style="@style/Inputs"
-                android:layout_width="335dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="4dp"
                 android:backgroundTint="#1FB5C0"
                 android:ems="10"
                 android:inputType="text"
                 android:text=""
-                android:textColor="#FFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.506"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nombreCompletoEdit" />
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/GeneroEditText"
@@ -81,27 +77,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Sexo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.107"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/nombreCompletoEditInput" />
+                android:text="Sexo" />
 
             <Spinner
                 android:id="@+id/generosEditDrop"
-                android:layout_width="335dp"
+                android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="4dp"
                 android:backgroundTint="#1FB5C0"
-                android:textColor="#1FB5C0"
                 android:lineSpacingExtra="5dp"
                 android:padding="5dp"
-                android:layout_margin="5dp"
-                android:popupBackground="@drawable/spinner_dropdown_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.526"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/GeneroEditText" />
+                android:popupBackground="@drawable/spinner_dropdown_background" />
 
             <TextView
                 android:id="@+id/DNIEditText"
@@ -110,25 +96,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="DNI"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.122"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DNIInput" />
+                android:text="DNI" />
 
             <EditText
                 android:id="@+id/DNIEditInput"
                 style="@style/Inputs"
-                android:layout_width="335dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="4dp"
                 android:backgroundTint="#1FB5C0"
                 android:text=""
-                android:textColor="#FFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.526"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DNIEditText" />
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/EdadEditText"
@@ -137,11 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="sans-serif-medium"
-                android:text="Edad"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.108"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/generosDrop" />
+                android:text="Edad" />
 
             <EditText
                 android:id="@+id/EdadEditInput"
@@ -153,12 +127,7 @@
                 android:ems="10"
                 android:inputType="text"
                 android:text=""
-                android:textColor="#FFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.131"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/EdadText" />
-
+                android:textColor="#FFFFFF" />
 
             <TextView
                 android:id="@+id/CorreoEditText"
@@ -167,28 +136,19 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Correo Electrónico"
-                android:textAppearance="@style/Labels"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.138"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/EdadEditInput" />
+                android:textAppearance="@style/Labels" />
 
             <EditText
                 android:id="@+id/EmailAddressEditInput"
                 style="@style/Inputs"
-                android:layout_width="335dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="4dp"
                 android:backgroundTint="#1FB5C0"
                 android:text=""
-                android:textColor="#FFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.513"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/CorreoEditText" />
+                android:textColor="#FFFFFF" />
 
         </LinearLayout>
-
 
     </ScrollView>
 

@@ -3,7 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/EmpezarTomaBtn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterView"
@@ -12,328 +11,234 @@
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="25dp"
+        android:layout_margin="8dp"
         app:cardBackgroundColor="#29282B"
         app:cardElevation="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/DatosText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="Ingrese tus datos"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:layout_marginTop="35dp"
-                android:layout_marginBottom="30dp"
-                android:layout_gravity="center_horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.497"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="vertical"
-                android:gravity="start">
+                android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/NombreText"
-                    style="@style/Labels"
+                    android:id="@+id/DatosText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Nombre Completo"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.141"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/DatosText" />
-
-                <EditText
-                    android:id="@+id/NombreInput"
-                    style="@style/Inputs"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#1FB5C0"
-                    android:ems="10"
-                    android:inputType="text"
-                    android:text=""
-                    android:maxLength="50"
-                    android:textSize="16sp"
+                    android:text="Ingrese tus datos"
                     android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.506"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/NombreText" />
-
-                <TextView
-                    android:id="@+id/nombreErrorText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/GeneroText"
-                    style="@style/Labels"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Sexo"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.112"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/NombreInput" />
-
-                <Spinner
-                    android:id="@+id/generosDrop"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#1FB5C0"
-                    android:textColor="#1FB5C0"
-                    android:textSize="16sp"
-                    android:popupBackground="@drawable/spinner_dropdown_background"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.506"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/GeneroText" />
-
-                <TextView
-                    android:id="@+id/EdadText"
-                    style="@style/Labels"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Edad"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.108"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/generosDrop" />
-
-                <EditText
-                    android:id="@+id/EdadInput"
-                    style="@style/Inputs"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:inputType="number"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#1FB5C0"
-                    android:ems="10"
-                    android:text=""
-                    android:textSize="16sp"
-                    android:maxLength="2"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.131"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/EdadText" />
-
-                <TextView
-                    android:id="@+id/edadErrorText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/DNIText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="DNI"
-                    android:textSize="16sp"
-                    android:textAppearance="@style/Labels"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.103"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/EdadInput" />
-
-                <EditText
-                    android:id="@+id/DNIInput"
-                    style="@style/Inputs"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#1FB5C0"
-                    android:inputType="number"
-                    android:text=""
-                    android:maxLength="8"
-                    android:textSize="16sp"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.506"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/DNIText" />
-
-
-                <TextView
-                    android:id="@+id/dniErrorText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:visibility="gone" />
-
-
-                <TextView
-                    android:id="@+id/CorreoText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Correo Electrónico"
-                    android:textSize="16sp"
-                    android:textAppearance="@style/Labels"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.138"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/DNIInput" />
-
-                <EditText
-                    android:id="@+id/EmailAddressInput"
-                    style="@style/Inputs"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="4dp"
-                    android:backgroundTint="#1FB5C0"
-                    android:inputType="textEmailAddress"
-                    android:text=""
-                    android:maxLength="100"
-                    android:textSize="16sp"
-                    android:textColor="#FFFFFF"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.493"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/CorreoText" />
-
-
-                <TextView
-                    android:id="@+id/emailErrorText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/ContraseñaText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Contraseña"
-                    android:textAppearance="@style/Labels"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.122"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/EmailAddressInput" />
+                    android:textSize="25sp"
+                    android:layout_marginTop="35dp"
+                    android:layout_marginBottom="30dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="start">
+
+                    <TextView
+                        android:id="@+id/NombreText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre Completo"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="8dp"/>
 
                     <EditText
-                        android:id="@+id/editTextTextPassword"
-                        style="@style/Inputs"
-                        android:layout_width="308dp"
+                        android:id="@+id/NombreInput"
+                        android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginTop="4dp"
                         android:backgroundTint="#1FB5C0"
-                        android:ems="10"
-                        android:inputType="textPassword"
-                        android:maxLength="100"
-                        android:text=""
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/nombreErrorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/GeneroText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sexo"
                         android:textColor="#FFFFFF"
                         android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.493"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ContraseñaText" />
+                        android:layout_marginTop="12dp" />
 
-                    <ImageView
-                        android:id="@+id/PasswordToggleIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="10dp"
-                        android:contentDescription="Toggle Password Visibility"
-                        android:src="@drawable/baseline_visibility_off_24"
-                        app:layout_constraintBottom_toBottomOf="@id/editTextTextPassword"
-                        app:layout_constraintEnd_toEndOf="@id/editTextTextPassword"
-                        app:layout_constraintTop_toTopOf="@id/editTextTextPassword" />
+                    <Spinner
+                        android:id="@+id/generosDrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="4dp"
+                        android:backgroundTint="#1FB5C0"/>
+
+                    <TextView
+                        android:id="@+id/EdadText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Edad"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+
+                    <EditText
+                        android:id="@+id/EdadInput"
+                        android:layout_width="100dp"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="4dp"
+                        android:backgroundTint="#1FB5C0"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/edadErrorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/DNIText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DNI"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+
+                    <EditText
+                        android:id="@+id/DNIInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="4dp"
+                        android:backgroundTint="#1FB5C0"
+                        android:inputType="number"
+                        android:maxLength="8"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/dniErrorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/CorreoText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Correo Electrónico"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+
+                    <EditText
+                        android:id="@+id/EmailAddressInput"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="4dp"
+                        android:backgroundTint="#1FB5C0"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="100"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/emailErrorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/ContraseñaText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Contraseña"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginTop="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/editTextTextPassword"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:layout_marginTop="4dp"
+                            android:backgroundTint="#1FB5C0"
+                            android:inputType="textPassword"
+                            android:maxLength="100"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"/>
+
+                        <ImageView
+                            android:id="@+id/PasswordToggleIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="10dp"
+                            android:contentDescription="Toggle Password Visibility"
+                            android:src="@drawable/baseline_visibility_off_24"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/passwordErrorText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="gone" />
                 </LinearLayout>
 
-
-                <TextView
-                    android:id="@+id/passwordErrorText"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:visibility="gone" />
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
+                    <Button
+                        android:id="@+id/Registrarse_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/rounded_corners_icon_turquesa"
+                        android:backgroundTint="#1FB5C0"
+                        android:paddingHorizontal="60dp"
+                        android:text="Registrarse"
+                        android:textAllCaps="false"/>
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="81dp"
+                        android:layout_height="166dp"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/doctor" />
+                </LinearLayout>
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <Button
-                    android:id="@+id/Registrarse_btn"
-                    android:layout_width="190dp"
-                    android:layout_height="50dp"
-                    android:backgroundTint="#1FB5C0"
-                    android:text="Registrarse"
-                    android:background="@drawable/rounded_corners_icon_turquesa"
-                    android:textAllCaps="false"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.363"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ContraseñaText" />
-
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="91dp"
-                    android:layout_height="176dp"
-                    android:layout_marginStart="16dp"
-                    android:src="@drawable/doctor" />
-
-            </LinearLayout>
-
-        </LinearLayout>
         </ScrollView>
-
     </androidx.cardview.widget.CardView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

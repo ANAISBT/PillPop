@@ -38,8 +38,9 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif-thin"
                 android:text="8:00 a.m."
+                android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -84,7 +85,7 @@
 
         <ImageView
             android:id="@+id/checkIcon"
-            android:layout_height="60dp"
+            android:layout_height="40dp"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:orientation="vertical"

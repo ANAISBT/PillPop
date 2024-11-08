@@ -145,10 +145,15 @@ class ProgresoFragment : Fragment() {
                 calendarioInicio.get(Calendar.MONTH),
                 calendarioInicio.get(Calendar.DAY_OF_MONTH)
             )
-            //datePickerDialog.datePicker.minDate = calendarioInicio.timeInMillis
-            datePickerDialog.datePicker.maxDate = calendario.timeInMillis
+
+            // Configura el máximo seleccionable como un día antes de la fecha actual
+            val maxDate = Calendar.getInstance()
+            maxDate.add(Calendar.DAY_OF_MONTH, -1)  // Resta un día a la fecha actual
+            datePickerDialog.datePicker.maxDate = maxDate.timeInMillis
+
             datePickerDialog.show()
         }
+
 
         val calendarioFin = Calendar.getInstance()
         val fechaFin2 = DatePickerDialog.OnDateSetListener { _, year, month, day ->
@@ -167,10 +172,16 @@ class ProgresoFragment : Fragment() {
                 calendarioFin.get(Calendar.MONTH),
                 calendarioFin.get(Calendar.DAY_OF_MONTH)
             )
+
+            // Configura el máximo seleccionable como un día antes de la fecha actual
+            val maxDate = Calendar.getInstance()
+            maxDate.add(Calendar.DAY_OF_MONTH, -1)  // Resta un día a la fecha actual
             datePickerDialog.datePicker.minDate = calendarioInicio.timeInMillis
-            datePickerDialog.datePicker.maxDate = calendario.timeInMillis
+            datePickerDialog.datePicker.maxDate = maxDate.timeInMillis
+
             datePickerDialog.show()
         }
+
 
         // Inicializa las vistas
         editTextDateInicio = view.findViewById(R.id.editTextDateInicio)

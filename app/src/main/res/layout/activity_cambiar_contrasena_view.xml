@@ -5,80 +5,64 @@
     android:id="@+id/EmpezarTomaBtn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CambiarContraseñaView"
-    android:background="#29282B">
+    android:background="#29282B"
+    tools:context=".CambiarContraseñaView">
 
     <LinearLayout
         android:id="@+id/ChangePasswordNav"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/grismedio_bg"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/TextEditPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-black"
-                android:text="Cambiar Contraseña"
-                android:textColor="@color/white"
-                android:textSize="22sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/TextEditPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="26dp"
+            android:layout_marginBottom="26dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Cambiar Contraseña"
+            android:textColor="@color/white"
+            android:textSize="22sp" />
     </LinearLayout>
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="16dp"
         app:layout_constraintTop_toBottomOf="@id/ChangePasswordNav"
         app:layout_constraintBottom_toTopOf="@id/linearLayoutButton"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="2dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
-            android:id="@+id/DatosPerfilEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="20dp">
-
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/DNIChangeText"
-                style="@style/Labels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="DNI"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.122"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DNIInput" />
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/DNIChangeInput"
-                style="@style/Inputs"
-                android:layout_width="335dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:backgroundTint="#1FB5C0"
-                android:text=""
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.526"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DNIChangeText" />
-
+                android:textColor="#FFFFFF"
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/ContrasenaEditText"
@@ -87,65 +71,51 @@
                 android:layout_marginTop="25dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Nueva Contraseña"
-                android:textAppearance="@style/Labels"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.138"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/DNIEditInput" />
+                android:textColor="@color/white"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/ContrasenaEditInput"
-                    style="@style/Inputs"
-                    android:layout_width="310dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:backgroundTint="#1FB5C0"
-                    android:text=""
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.526"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/DNIEditText" />
+                    android:inputType="textPassword" />
 
                 <ImageView
                     android:id="@+id/PasswordToggleIcon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="8dp"
                     android:contentDescription="Toggle Password Visibility"
-                    android:src="@drawable/baseline_visibility_off_24"
-                    app:layout_constraintBottom_toBottomOf="@id/ContrasenaEditInput"
-                    app:layout_constraintEnd_toEndOf="@id/ContrasenaEditInput"
-                    app:layout_constraintTop_toTopOf="@id/ContrasenaEditInput" />
+                    android:src="@drawable/baseline_visibility_off_24" />
             </LinearLayout>
-
         </LinearLayout>
-
-
     </ScrollView>
 
     <LinearLayout
         android:id="@+id/linearLayoutButton"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:gravity="center_horizontal|fill_horizontal"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <Button
             android:id="@+id/EditarContrasenaButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="16dp"
             android:layout_weight="1"
+            android:layout_marginEnd="4dp"
             android:background="@drawable/rounded_button_turquesa"
             android:text="Editar" />
 
@@ -153,12 +123,10 @@
             android:id="@+id/CancelarContrasenaEditBtn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="16dp"
             android:layout_weight="1"
+            android:layout_marginStart="4dp"
             android:background="@drawable/rounded_button_gris"
             android:text="Cancelar" />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

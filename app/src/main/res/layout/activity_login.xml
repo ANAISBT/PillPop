@@ -10,169 +10,138 @@
     android:background="#29282B">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="25dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         app:cardBackgroundColor="#29282B"
-        app:cardElevation="0dp">
+        app:cardElevation="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="641dp"
             android:orientation="vertical"
-            android:gravity="center"
-            android:padding="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:padding="16dp">
 
+            <!-- Título de Inicio de Sesión -->
             <TextView
                 android:id="@+id/IniciarSesionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Iniciar Sesión"
                 android:textColor="#FFFFFF"
-                android:textSize="25sp"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="50dp"
-                android:layout_gravity="center_horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textSize="25sp" />
+
+            <!-- Sección DNI -->
+            <TextView
+                android:id="@+id/DNIText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Ingrese su DNI"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/DNIInput"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#1FB5C0"
+                android:inputType="number"
+                android:maxLength="8"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+
+            <!-- Error de DNI -->
+            <TextView
+                android:id="@+id/dniErrorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_dark"
+                android:visibility="gone" />
+
+            <!-- Sección Contraseña -->
+            <TextView
+                android:id="@+id/ContraseñaTextLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Ingrese su Contraseña"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="start">
-
-                <TextView
-                    android:id="@+id/DNIText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Ingrese su DNI"
-                    android:textAppearance="@style/Labels"
-                    android:textSize="16sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.098"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/IniciarSesionText" />
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/DNIInput"
-                    style="@style/Inputs"
-                    android:layout_width="match_parent"
+                    android:id="@+id/TextPasswordInput"
+                    android:layout_width="0dp"
                     android:layout_height="45dp"
+                    android:layout_weight="1"
                     android:backgroundTint="#1FB5C0"
-                    android:text=""
-                    android:inputType="number"
-                    android:textSize="16sp"
-                    android:maxLength="8"
+                    android:inputType="textPassword"
+                    android:maxLength="100"
                     android:textColor="#FFFFFF"
-                    android:layout_marginTop="15dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.493"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/DNIText" />
+                    android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/dniErrorText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/ContraseñaTextLogin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="Ingrese su Contraseña"
-                    android:textAppearance="@style/Labels"
-                    android:textSize="16sp"
-                    android:layout_marginTop="40dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.115"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/DNIInput" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/TextPasswordInput"
-                        style="@style/Inputs"
-                        android:layout_width="319dp"
-                        android:layout_height="45dp"
-                        android:layout_marginTop="15dp"
-                        android:backgroundTint="#1FB5C0"
-                        android:ems="10"
-                        android:inputType="textPassword"
-                        android:maxLength="100"
-                        android:text=""
-                        android:textColor="#FFFFFF"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.48"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/ContraseñaTextLogin" />
-
-                    <ImageView
-                        android:id="@+id/PasswordToggleIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="20dp"
-                        android:contentDescription="Toggle Password Visibility"
-                        android:src="@drawable/baseline_visibility_off_24"
-                        app:layout_constraintBottom_toBottomOf="@id/TextPasswordInput"
-                        app:layout_constraintEnd_toEndOf="@id/TextPasswordInput"
-                        app:layout_constraintTop_toTopOf="@id/TextPasswordInput" />
-
-                    <TextView
-                        android:id="@+id/passwordErrorText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/holo_red_dark"
-                        android:visibility="gone" />
-                </LinearLayout>
-
+                <ImageView
+                    android:id="@+id/PasswordToggleIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="Toggle Password Visibility"
+                    android:src="@drawable/baseline_visibility_off_24" />
             </LinearLayout>
 
+            <!-- Error de Contraseña -->
+            <TextView
+                android:id="@+id/passwordErrorText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/holo_red_dark"
+                android:visibility="gone" />
+
+            <!-- Botón de Inicio de Sesión -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="233dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="110dp"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="16dp">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <ImageView
                     android:id="@+id/imageView6"
                     android:layout_width="wrap_content"
-                    android:layout_height="184dp"
-                    app:srcCompat="@drawable/doctor" />
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/doctor" />
 
                 <Button
                     android:id="@+id/IniciarSesionBtn"
-                    android:layout_width="180dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:background="@drawable/rounded_corners_icon_turquesa"
                     android:backgroundTint="#1FB5C0"
                     android:text="Iniciar"
                     android:textAllCaps="false"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.207"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp" />
             </LinearLayout>
 
         </LinearLayout>

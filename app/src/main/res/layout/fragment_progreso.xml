@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Título del reporte -->
         <LinearLayout
             android:id="@+id/navReporte"
             android:layout_width="match_parent"
@@ -20,7 +21,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="89dp"
+                android:layout_height="60dp"
                 android:background="@drawable/grismedio_bg"
                 android:orientation="vertical"
                 tools:ignore="MissingConstraints">
@@ -34,11 +35,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="28dp"
+                        android:layout_marginTop="18dp"
                         android:fontFamily="sans-serif-black"
                         android:text="Reporte de Historial de Tomas"
                         android:textColor="@color/white"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -46,18 +47,19 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!-- Sección de filtro de tiempo -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/navReporte"
+            android:padding="16dp"
             tools:ignore="MissingConstraints">
 
             <TextView
                 android:id="@+id/TiempoText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Tiempo"
@@ -66,27 +68,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <Spinner
                 android:id="@+id/FrecuenciaReporteDrop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="10dp"
-                android:padding="12dp"
+                android:padding="10dp"
                 android:textColor="@color/white"
                 android:background="@drawable/rounded_corners_gris_tab"
                 android:popupBackground="@drawable/spinner_dropdown_background"
                 android:backgroundTint="#403F3F"
-                android:layout_marginVertical="10dp"
-                android:layout_marginHorizontal="16dp"
-                />
+                android:layout_marginVertical="15dp" />
 
+            <!-- Filtro de fechas -->
             <LinearLayout
                 android:id="@+id/LinearEntreFechas"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -95,7 +94,7 @@
                     android:layout_marginBottom="4dp">
 
                     <LinearLayout
-                        android:layout_width="188dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
 
@@ -107,15 +106,14 @@
                             android:fontFamily="sans-serif-medium"
                             android:text="Fecha Inicio"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="188dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="85dp">
 
                         <TextView
                             android:id="@+id/TiempoFinText"
@@ -125,37 +123,31 @@
                             android:fontFamily="sans-serif-medium"
                             android:text="Fecha Fin"
                             android:textColor="@color/white"
-                            android:textSize="14sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:textSize="16sp" />
                     </LinearLayout>
 
                 </LinearLayout>
 
+                <!-- Selección de fechas -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center|center_horizontal|center_vertical"
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="188dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center|center_horizontal|center_vertical"
-                        android:layout_marginLeft="16dp"
                         android:orientation="horizontal">
 
                         <EditText
                             android:id="@+id/editTextDateInicio"
                             android:layout_width="115dp"
                             android:layout_height="40dp"
-                            android:layout_gravity="center"
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:padding="10dp"
                             android:background="@drawable/rounded_corners_gris_tab"
                             android:backgroundTint="#403F3F"
-                            android:ems="10"
                             android:inputType="date" />
 
                         <com.google.android.material.button.MaterialButton
@@ -168,22 +160,20 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="194dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center|center_horizontal|center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginLeft="10dp">
 
                         <EditText
                             android:id="@+id/editTextDateFin"
                             android:layout_width="115dp"
                             android:layout_height="40dp"
-                            android:layout_gravity="center"
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:padding="10dp"
                             android:background="@drawable/rounded_corners_gris_tab"
                             android:backgroundTint="#403F3F"
-                            android:ems="10"
                             android:inputType="date" />
 
                         <com.google.android.material.button.MaterialButton
@@ -197,26 +187,23 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <!-- Fecha única -->
             <LinearLayout
                 android:id="@+id/LinearfechaUnica"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center|center_horizontal|center_vertical"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTextDateUnico"
-                    android:layout_width="303dp"
+                    android:layout_width="212dp"
                     android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
-                    android:layout_marginLeft="16dp"
                     android:background="@drawable/rounded_corners_gris_tab"
                     android:backgroundTint="#403F3F"
-                    android:ems="10"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/fechaPickBtn"
@@ -228,6 +215,8 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        <!-- Botón para descargar reporte -->
         <LinearLayout
             android:id="@+id/linearLayoutButton"
             android:layout_width="wrap_content"
@@ -242,9 +231,11 @@
                 android:id="@+id/Descargar_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:drawableLeft="@drawable/baseline_arrow_downward_24"
                 android:background="@drawable/rounded_button_turquesa"
-                android:text="Descargar Reporte" />
+                android:text="Descargar Reporte"
+                />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
