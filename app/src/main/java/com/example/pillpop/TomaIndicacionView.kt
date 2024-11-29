@@ -23,8 +23,6 @@ class TomaIndicacionView : AppCompatActivity() {
         idMedicamento = intent.getIntExtra("ID_MEDICAMENTO", -1) // -1 es un valor por defecto
 
         if (idMedicamento != -1) {
-            // Aquí puedes usar el idMedicamento según sea necesario
-           // Toast.makeText(this, "ID del medicamento: $idMedicamento", Toast.LENGTH_SHORT).show()
         }
 
         button.setOnClickListener {
