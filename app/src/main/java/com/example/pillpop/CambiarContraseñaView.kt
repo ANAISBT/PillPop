@@ -42,8 +42,7 @@ class CambiarContraseñaView : AppCompatActivity() {
         dniChangeInput = findViewById(R.id.DNIChangeInput)
         contrasenaEditInput = findViewById(R.id.ContrasenaEditInput)
         toggleIcon = findViewById(R.id.PasswordToggleIcon)
-
-        // Llamar a obtenerDatosDoctor para cargar los datos del doctor
+        
         obtenerDatosPaciente()
 
         CancelarButton = findViewById(R.id.CancelarContrasenaEditBtn)
