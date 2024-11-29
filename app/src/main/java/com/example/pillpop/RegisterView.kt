@@ -144,7 +144,7 @@ class RegisterView : AppCompatActivity() {
 
     // Función para obtener los géneros usando Volley
     private fun loadGeneros() {
-        progressDialog.show() 
+        progressDialog.show()
         val url = "https://pillpop-backend.onrender.com/getDataSexo"  // Reemplaza con la URL correcta
 
         val jsonArrayRequest = JsonArrayRequest(
@@ -159,7 +159,6 @@ class RegisterView : AppCompatActivity() {
                         generosList.add(nombre)
                         generoMap[nombre] = id
                     }
-                    // Configuramos el adaptador del Spinner
                     val adapterGeneros = ArrayAdapter(this, R.layout.spinner_item, generosList)
                     adapterGeneros.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     spinnerGenero.adapter = adapterGeneros
