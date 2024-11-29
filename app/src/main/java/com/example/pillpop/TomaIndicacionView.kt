@@ -20,7 +20,7 @@ class TomaIndicacionView : AppCompatActivity() {
         val button = findViewById<Button>(R.id.IrVerificacionBtn)
 
         // Obtener el ID del medicamento de los extras
-        idMedicamento = intent.getIntExtra("ID_MEDICAMENTO", -1) // -1 es un valor por defecto
+        idMedicamento = intent.getIntExtra("ID_MEDICAMENTO", -1) 
 
         if (idMedicamento != -1) {
         }
