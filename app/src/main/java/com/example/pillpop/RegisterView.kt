@@ -144,7 +144,7 @@ class RegisterView : AppCompatActivity() {
 
     // Función para obtener los géneros usando Volley
     private fun loadGeneros() {
-        progressDialog.show() // Mostrar el loader antes de hacer la petición
+        progressDialog.show() 
         val url = "https://pillpop-backend.onrender.com/getDataSexo"  // Reemplaza con la URL correcta
 
         val jsonArrayRequest = JsonArrayRequest(
